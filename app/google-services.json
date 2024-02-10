@@ -1,0 +1,49 @@
+{
+  "project_info": {
+    "project_number": "913101761373",
+    "firebase_url": "https://food-planner-aafcc-default-rtdb.firebaseio.com",
+    "project_id": "food-planner-aafcc",
+    "storage_bucket": "food-planner-aafcc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:913101761373:android:677262094e3e02303696b4",
+        "android_client_info": {
+          "package_name": "com.example.foodapplication"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAALCngbXmae5HnTr01khcaYwRq4e-62yc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:913101761373:android:7a5bece466c595263696b4",
+        "android_client_info": {
+          "package_name": "com.example.mealdayproapplication"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAALCngbXmae5HnTr01khcaYwRq4e-62yc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,3 +1,20 @@
 <resources>
     <string name="app_name">FoodApplication</string>
+    <string name="hello">Hello,</string>
+    <string name="name">Elham</string>
+    <string name="what_you_want_eat_today">What you want eat today?</string>
+    <string name="home">Home</string>
+    <string name="search">search</string>
+    <string name="weekly">Weekly</string>
+    <string name="favourite">Favourite</string>
+    <string name="type">Type</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="name_">Name</string>
+    <string name="category">Category</string>
+    <string name="ingredient">ingredient</string>
+    <string name="country">Country</string>
+    <string name="add_to_favourite">Add To Favourite</string>
+    <string name="description">Description</string>
+    <string name="ingredients">Ingredients</string>
 </resources>
