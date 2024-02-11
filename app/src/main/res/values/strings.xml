@@ -12,9 +12,29 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="name_">Name</string>
     <string name="category">Category</string>
-    <string name="ingredient">ingredient</string>
+    <string name="ingredient">Ingredient</string>
     <string name="country">Country</string>
     <string name="add_to_favourite">Add To Favourite</string>
     <string name="description">Description</string>
     <string name="ingredients">Ingredients</string>
+    <string name="your_email_or_phone">Your email </string>
+    <string name="skip">SKIP-> </string>
+    <string name="forgot_password">Forgot Password?</string>
+
+    <string name="don_t_have_an_account_sign_up">Don’t have an account? Sign Up</string>
+    <string name="login">Login</string>
+    <string name="password">Password</string>
+    <string name="sign_up">SIGN UP</string>
+    <string name="login_">LOGIN</string>
+    <string name="full_name">Full name</string>
+    <string name="e_mail">E-mail</string>
+    <string name="password_">Password</string>
+    <string name="phone">Phone</string>
+    <string name="already_have_an_account_login">Already have an account? Login</string>
+    <string name="sign_up_with">Sign up with</string>
+    <string name="default_web_client_id">default web client id</string>
+    <string name="facebook_app_id">YOUR_FACEBOOK_APP_ID</string>
+    <string name="fb_login_protocol_scheme">fbYOUR_FACEBOOK_APP_ID</string>
+    <string name="sign_in_with_google">Sign in with Google</string>
+    <string name="create_an_account">Create an account</string>
 </resources>

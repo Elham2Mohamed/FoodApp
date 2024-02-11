@@ -17,6 +17,7 @@ public class Meal {
     private String strMealThumb;
     private String strTags;
     private String strYoutube;
+    private  String strIngredient=null;
     private String strIngredient1;
     private String strIngredient2;
     private String strIngredient3;
@@ -160,6 +161,9 @@ public class Meal {
 
     public String getStrIngredient1() {
         return strIngredient1;
+    }
+    public String getStrIngredient() {
+        return strIngredient;
     }
 
     public String getStrIngredient2() {
@@ -374,6 +378,9 @@ public class Meal {
 
     public void setStrIngredient1(String strIngredient1) {
         this.strIngredient1 = strIngredient1;
+    }
+    public void setStrIngredient(String strIngredient) {
+        this.strIngredient = strIngredient;
     }
 
     public void setStrIngredient2(String strIngredient2) {

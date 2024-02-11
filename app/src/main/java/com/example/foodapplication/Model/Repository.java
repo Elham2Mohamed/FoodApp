@@ -21,6 +21,15 @@ public class Repository {
     public void getAllCat(NetworkCallback networkCallback){
         remoteDBSource.makeNetworkCallCategories(networkCallback);
     }
+    public void getAllArea(NetworkCallback networkCallback){
+        remoteDBSource.makeNetworkCallArea(networkCallback);
+    }
+    public void getAllCATName(NetworkCallback networkCallback){
+        remoteDBSource.makeNetworkCallCategorie(networkCallback);
+    }
+    public void getAllIng(NetworkCallback networkCallback){
+        remoteDBSource.makeNetworkCallIngredients(networkCallback);
+    }
     public void getRandomMeal(NetworkCallback networkCallback){
         remoteDBSource.makeNetworkCallRandomMeal(networkCallback);
     }

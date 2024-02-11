@@ -1,11 +1,9 @@
 package com.example.foodapplication.AllMeals.controller;
 
-import com.example.foodapplication.AllMeals.View.AllMealsActivity;
 import com.example.foodapplication.AllMeals.View.IAllMealsView;
 import com.example.foodapplication.Model.Categories;
 import com.example.foodapplication.Model.Meal;
 import com.example.foodapplication.Model.Repository;
-import com.example.foodapplication.home.view.IRandomMealsView;
 import com.example.foodapplication.network.NetworkCallback;
 
 import java.util.List;
@@ -30,6 +28,15 @@ public class AllMealsPresenter implements IAllMealsPresenter, NetworkCallback {
     }
 
 
+    @Override
+    public void getCategories() {
+
+    }
+
+    @Override
+    public void getRandomMeal() {
+
+    }
 
     @Override
     public void onSuccessResultCategories(List<Categories> categories) {
@@ -44,6 +51,11 @@ public class AllMealsPresenter implements IAllMealsPresenter, NetworkCallback {
     @Override
     public void onSuccessResultMeals(List<Meal> mealList) {
         mealsView.showMeals(mealList);
+    }
+
+    @Override
+    public void onSuccessFilterMeals(List<Meal> mealList) {
+
     }
 
     @Override

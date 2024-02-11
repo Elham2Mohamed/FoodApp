@@ -49,6 +49,11 @@ randomMealView.showRandomMeal(mealList);
     }
 
     @Override
+    public void onSuccessFilterMeals(List<Meal> mealList) {
+
+    }
+
+    @Override
     public void onFailureResultMeals(String errorMsg) {
 randomMealView.ShowErrMsg(errorMsg);
     }

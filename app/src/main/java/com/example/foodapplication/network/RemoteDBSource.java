@@ -55,6 +55,83 @@ public class RemoteDBSource implements IRemoteDataSource {
     }
 
     @Override
+    public void makeNetworkCallArea(NetworkCallback networkCallback) {
+        Call<MealResponse> call= service.getAreaName();
+        call.enqueue(new Callback<MealResponse>() {
+            @Override
+            public void onResponse(Call<MealResponse> call, Response<MealResponse> response) {
+                if(response.isSuccessful()) {
+                    assert response.body() != null;
+                    networkCallback.onSuccessFilterMeals(response.body().getMeals());
+                    Log.i(TAG, "onResponse:onSuccessResult ");
+
+                }
+                else {
+                    networkCallback.onFailureResultMeals("Response not successful");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<MealResponse> call, Throwable t) {
+                networkCallback.onFailureResultCategories(t.getMessage());
+                t.printStackTrace();
+                Log.i(TAG, "onResponse:onFailureResult ");
+            }
+        });
+    }
+    @Override
+    public void makeNetworkCallCategorie(NetworkCallback networkCallback) {
+        Call<MealResponse> call= service.getCategoriesName();
+        call.enqueue(new Callback<MealResponse>() {
+            @Override
+            public void onResponse(Call<MealResponse> call, Response<MealResponse> response) {
+                if(response.isSuccessful()) {
+                    assert response.body() != null;
+                    networkCallback.onSuccessFilterMeals(response.body().getMeals());
+                    Log.i(TAG, "onResponse:onSuccessResult ");
+
+                }
+                else {
+                    networkCallback.onFailureResultMeals("Response not successful");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<MealResponse> call, Throwable t) {
+                networkCallback.onFailureResultCategories(t.getMessage());
+                t.printStackTrace();
+                Log.i(TAG, "onResponse:onFailureResult ");
+            }
+        });
+    }
+
+    @Override
+    public void makeNetworkCallIngredients(NetworkCallback networkCallback) {
+        Call<MealResponse> call= service.getIngredientName();
+        call.enqueue(new Callback<MealResponse>() {
+            @Override
+            public void onResponse(Call<MealResponse> call, Response<MealResponse> response) {
+                if(response.isSuccessful()) {
+                    assert response.body() != null;
+                    networkCallback.onSuccessFilterMeals(response.body().getMeals());
+                    Log.i(TAG, "onResponse:onSuccessResult ");
+
+                }
+                else {
+                    networkCallback.onFailureResultMeals("Response not successful");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<MealResponse> call, Throwable t) {
+                networkCallback.onFailureResultCategories(t.getMessage());
+                t.printStackTrace();
+                Log.i(TAG, "onResponse:onFailureResult ");
+            }
+        });
+    }
+
+    @Override
     public void makeNetworkCallRandomMeal(NetworkCallback networkCallback) {
         Call<MealResponse> call= service.getRandomMeal();
         call.enqueue(new Callback<MealResponse>() {

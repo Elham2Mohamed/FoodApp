@@ -2,6 +2,9 @@ package com.example.foodapplication.network;
 
 public interface IRemoteDataSource {
     public void makeNetworkCallCategories(NetworkCallback networkCallback);
+    public void makeNetworkCallCategorie(NetworkCallback networkCallback);
+    public void makeNetworkCallArea(NetworkCallback networkCallback);
+    public void makeNetworkCallIngredients(NetworkCallback networkCallback);
     public void makeNetworkCallRandomMeal(NetworkCallback networkCallback);
     public void makeNetworkCallSearchByCategory(NetworkCallback networkCallback, String categoryName);
      public void makeNetworkCallSearchByArea(NetworkCallback networkCallback,String Category);

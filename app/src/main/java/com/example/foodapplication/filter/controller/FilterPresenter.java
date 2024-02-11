@@ -1,20 +1,25 @@
-package com.example.foodapplication.search.controller;
+package com.example.foodapplication.filter.controller;
 
 import com.example.foodapplication.Model.Categories;
 import com.example.foodapplication.Model.Meal;
 import com.example.foodapplication.Model.Repository;
+import com.example.foodapplication.filter.view.IFilterMealsView;
 import com.example.foodapplication.network.NetworkCallback;
-import com.example.foodapplication.search.view.ISearchMealsView;
 
 import java.util.List;
 
-public class SearchMealsPresenter implements ISearchMealsPresenter, NetworkCallback {
+public class FilterPresenter implements IFilterPresenter, NetworkCallback {
 
-    private ISearchMealsView mealsView;
+    private IFilterMealsView mealsView;
     private Repository repository;
     String name;
 
-    public SearchMealsPresenter(ISearchMealsView allMealsView, Repository repository, String name) {
+    public FilterPresenter(IFilterMealsView allMealsView, Repository repository) {
+        this.mealsView = allMealsView;
+        this.repository = repository;
+
+    }
+    public FilterPresenter(IFilterMealsView allMealsView, Repository repository,String name) {
         this.mealsView = allMealsView;
         this.repository = repository;
         this.name=name;
@@ -23,25 +28,31 @@ public class SearchMealsPresenter implements ISearchMealsPresenter, NetworkCallb
     @Override
     public void getMealsByCategories() {
 
-            repository.getMealsByCategories(this,name);
+            repository.getAllCATName(this);
 
     }
 
     @Override
     public void getMealsByArea() {
+        repository.getAllArea(this);
+
+    }
+    public void filterMealsByArea() {
         repository.getMealsByArea(this,name);
 
     }
+    public void filterMealsByCategories() {
+        repository.getMealsByCategories(this,name);
 
-    @Override
-    public void getMealsByName() {
-        repository.getMealsByName(this,name);
+    }
+    public void filterMealsByIngredient() {
+        repository.getMealsByIngredient(this,name);
 
     }
 
     @Override
     public void getMealsByIngredient() {
-        repository.getMealsByIngredient(this,name);
+        repository.getAllIng(this);
 
     }
 
@@ -72,11 +83,13 @@ public class SearchMealsPresenter implements ISearchMealsPresenter, NetworkCallb
 
     @Override
     public void onSuccessFilterMeals(List<Meal> mealList) {
-
+        mealsView.showMeal(mealList);
     }
 
     @Override
     public void onFailureResultMeals(String errorMsg) {
         mealsView.ShowErrMsg(errorMsg);
     }
+
+
 }

@@ -125,6 +125,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:ems="10"
+            android:backgroundTint="@color/white"
             android:outlineAmbientShadowColor="@color/white"
             android:inputType="text"
             android:text="" />
