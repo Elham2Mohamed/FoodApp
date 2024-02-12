@@ -19,6 +19,9 @@
         android:theme="@style/Theme.FoodApplication"
         tools:targetApi="31">
         <activity
+            android:name=".MainActivity"
+            android:exported="false" />
+        <activity
             android:name=".SignUpActivity2"
             android:exported="false" />
         <activity
@@ -31,19 +34,19 @@
             android:name=".MealActivity"
             android:exported="false" />
         <activity
-            android:name=".home.view.HomeActivity"
+            android:name=".SplashActivity"
             android:exported="false" />
         <activity
             android:name=".AllMeals.View.AllMealsActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".LoginActivity"
             android:exported="false" />
         <activity
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation" />
         <activity
-            android:name=".LoginActivity"
+            android:name=".home.view.HomeActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -14,10 +14,13 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import android.content.Intent;
 import android.text.TextUtils;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -45,7 +48,7 @@ public class LoginActivity extends AppCompatActivity {
     GoogleSignInButton googleBtn;
     GoogleSignInOptions gOptions;
     GoogleSignInClient gClient;
-
+    ImageButton toggleButton;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -59,6 +62,27 @@ public class LoginActivity extends AppCompatActivity {
         signupRedirectText = findViewById(R.id.signUpRedirectText);
         forgotPassword = findViewById(R.id.forgot_password);
         googleBtn = findViewById(R.id.googleBtn);
+       toggleButton = findViewById(R.id.passwordVisibilityToggle);
+
+        toggleButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Toggle password visibility
+                int selectionStart = loginPassword.getSelectionStart();
+                int selectionEnd = loginPassword.getSelectionEnd();
+                if (loginPassword.getTransformationMethod() == PasswordTransformationMethod.getInstance()) {
+                    // Password is currently hidden, show it
+                    loginPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                    toggleButton.setImageResource(R.drawable.visibility_off); // Change image to hide password icon
+                } else {
+                    // Password is currently shown, hide it
+                    loginPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                    toggleButton.setImageResource(R.drawable.visibility); // Change image to show password icon
+                }
+                // Preserve cursor position
+                loginPassword.setSelection(selectionStart, selectionEnd);
+            }
+        });
 
         auth = FirebaseAuth.getInstance();
         btnSKIP.setOnClickListener(new View.OnClickListener() {
@@ -81,7 +105,10 @@ public class LoginActivity extends AppCompatActivity {
                                     @Override
                                     public void onSuccess(AuthResult authResult) {
                                         Toast.makeText(LoginActivity.this, "Login Successful", Toast.LENGTH_SHORT).show();
-                                        startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                                        Intent intent=new Intent(LoginActivity.this, MainActivity.class);
+                                        intent.putExtra("email",email);
+                                        intent.putExtra("password",pass);
+                                        startActivity(intent);
                                         finish();
                                     }
                                 }).addOnFailureListener(new OnFailureListener() {

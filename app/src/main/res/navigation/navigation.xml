@@ -24,4 +24,19 @@
         android:name="com.example.foodapplication.fragments.weeklyFragment"
         android:label="weekly"
         tools:layout="@layout/fragment_weekly" />
+    <fragment
+        android:id="@+id/filterFragment"
+        android:name="com.example.foodapplication.fragments.filterFragment"
+        android:label="Filter"
+        tools:layout="@layout/fragment_filter" />
+    <fragment
+        android:id="@+id/mealListFragment"
+        android:name="com.example.foodapplication.fragments.mealListFragment"
+        android:label="Meals"
+        tools:layout="@layout/fragment_meal_list" />
+    <fragment
+        android:id="@+id/mealFragment"
+        android:name="com.example.foodapplication.fragments.mealFragment"
+        android:label="Meal Details"
+        tools:layout="@layout/fragment_meal" />
 </navigation>

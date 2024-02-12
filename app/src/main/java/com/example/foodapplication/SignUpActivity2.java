@@ -6,9 +6,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,7 +26,7 @@ public class SignUpActivity2 extends AppCompatActivity {
     private EditText signupEmail, signupPassword;
     private Button signupButton;
     private TextView loginRedirectText;
-
+    ImageButton toggleButton;
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +38,27 @@ public class SignUpActivity2 extends AppCompatActivity {
         signupPassword = findViewById(R.id.signup_password);
         signupButton = findViewById(R.id.signup_button);
         loginRedirectText = findViewById(R.id.loginRedirectText);
+        toggleButton = findViewById(R.id.passwordVisibilityToggle);
+
+        toggleButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Toggle password visibility
+                int selectionStart = signupPassword.getSelectionStart();
+                int selectionEnd = signupPassword.getSelectionEnd();
+                if (signupPassword.getTransformationMethod() == PasswordTransformationMethod.getInstance()) {
+                    // Password is currently hidden, show it
+                    signupPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                    toggleButton.setImageResource(R.drawable.visibility_off); // Change image to hide password icon
+                } else {
+                    // Password is currently shown, hide it
+                    signupPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                    toggleButton.setImageResource(R.drawable.visibility); // Change image to show password icon
+                }
+                // Preserve cursor position
+                signupPassword.setSelection(selectionStart, selectionEnd);
+            }
+        });
 
         signupButton.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -37,4 +37,8 @@
     <string name="fb_login_protocol_scheme">fbYOUR_FACEBOOK_APP_ID</string>
     <string name="sign_in_with_google">Sign in with Google</string>
     <string name="create_an_account">Create an account</string>
+    <string name="logout">Logout</string>
+    <string name="filter">Filter</string>
+    <string name="get_started">Get started</string>
+    <string name="food_for_everyone">Food for Everyone</string>
 </resources>
