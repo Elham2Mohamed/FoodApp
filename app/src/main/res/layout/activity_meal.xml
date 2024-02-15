@@ -37,7 +37,7 @@
             android:id="@+id/btnAddFavourite"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/white"
+            android:background="@drawable/text_background_selector"
             android:padding="16dp"
             app:srcCompat="@drawable/ic_favourite" />
     </LinearLayout>
