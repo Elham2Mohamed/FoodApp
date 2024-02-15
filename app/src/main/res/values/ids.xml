@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="home_activity" type="id"/>
+    <item name="search_activity" type="id"/>
+    <item name="weekly_activity" type="id"/>
+    <item name="favourite_activity" type="id"/>
+    <item name="filter_activity" type="id"/>
+</resources>

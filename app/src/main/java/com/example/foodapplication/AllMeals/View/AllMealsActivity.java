@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.content.Intent;
 import com.example.foodapplication.AllMeals.controller.AllMealsPresenter;
+import com.example.foodapplication.Model.LocalDataSource;
 import com.example.foodapplication.Model.Meal;
 import com.example.foodapplication.Model.Repository;
 import com.example.foodapplication.R;
@@ -23,7 +24,7 @@ import com.example.foodapplication.network.RemoteDBSource;
 
 import java.util.List;
 
-public class AllMealsActivity extends AppCompatActivity implements IAllMealsView {
+public class AllMealsActivity extends AppCompatActivity implements IAllMealsView ,OnFavMealClickListener{
     RecyclerView recyclerView;
      TextView type;
      ImageButton btnBack;
@@ -51,8 +52,8 @@ public class AllMealsActivity extends AppCompatActivity implements IAllMealsView
         recyclerView.setHasFixedSize(true);
         layoutManager = new GridLayoutManager(this,2,RecyclerView.VERTICAL,false);
         layoutManager.setOrientation(RecyclerView.VERTICAL);
-        mealsAdapter =new MealsAdapter(this);
-        mealsPresenter=new AllMealsPresenter( this, Repository.getRepository(RemoteDBSource.getInstance()),categoryName);
+        mealsAdapter =new MealsAdapter(this,this);
+        mealsPresenter=new AllMealsPresenter( this, Repository.getRepository(LocalDataSource.getInstance(this),RemoteDBSource.getInstance()),categoryName);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(mealsAdapter);
         mealsPresenter.getMealsByCategories();
@@ -80,5 +81,13 @@ public class AllMealsActivity extends AppCompatActivity implements IAllMealsView
         builder.setMessage(error).setTitle("An Error Occurred");
         AlertDialog dialog=builder.create();
         dialog.show();
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    @Override
+    public void onFavMealClickListener(Meal meal) {
+        mealsPresenter.addToFav(meal);
+        mealsAdapter.notifyDataSetChanged();
+
     }
 }

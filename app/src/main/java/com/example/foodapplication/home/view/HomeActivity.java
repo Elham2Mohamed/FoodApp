@@ -3,21 +3,33 @@ package com.example.foodapplication.home.view;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GravityCompat;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.ui.NavigationUI;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.foodapplication.AllMeals.View.AllMealsActivity;
+import com.example.foodapplication.Favorite.view.FavoriteActivity;
 import com.example.foodapplication.Model.Categories;
+import com.example.foodapplication.Model.LocalDataSource;
 import com.example.foodapplication.Model.Repository;
 import com.example.foodapplication.Model.Meal;
 import com.example.foodapplication.R;
+import com.example.foodapplication.filter.view.FilterMealsActivity;
 import com.example.foodapplication.home.controller.HomePresenter;
 import com.example.foodapplication.network.RemoteDBSource;
+import com.example.foodapplication.search.view.SearchActivity2;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -42,42 +54,38 @@ public class HomeActivity extends AppCompatActivity implements IAllCategoriestVi
         layoutManager = new GridLayoutManager(this,2,RecyclerView.VERTICAL,false);
         layoutManager.setOrientation(RecyclerView.VERTICAL);
         categoriesAdapter =new CategoriesAdapter(this,this);
-        allpresenter=new HomePresenter( this,this, Repository.getRepository(RemoteDBSource.getInstance()));
+        allpresenter=new HomePresenter( this,this, Repository.getRepository(LocalDataSource.getInstance(this),RemoteDBSource.getInstance()));
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(categoriesAdapter);
        allpresenter.getCategories();
         allpresenter.getRandomMeal();
 
-        // BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
-//        bottomNavigationView.setOnNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-//            @SuppressLint("NonConstantResourceId")
-//            @Override
-//            public boolean onNavigationItemSelected(@NonNull @org.jetbrains.annotations.NotNull MenuItem item) {
-//
-//                int id = item.getItemId();
-//                switch (id)
-//                {
-//                case R.id.navigation_home:
-//                    // Handle Home item click
-//                    // Example: navigate to home fragment or activity
-//                    return true;
-//                case R.id.navigation_search:
-//                    Intent intent = new Intent(HomeActivity.this, SearchActivity2.class);
-//                    startActivity(intent);
-//                    return true;
-//                case R.id.navigation_weekly:
-//                    // Handle Weekly item click
-//                    // Example: navigate to weekly fragment or activity
-//                    return true;
-//                case R.id.navigation_favourite:
-//                    // Handle Favourite item click
-//                    // Example: navigate to favourite fragment or activity
-//                    return true;
-//                default:
-//                    return false;
-//            }
-//        }
-//        });
+
+
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                int id = item.getItemId();
+                if (id == R.id.home_activity) {
+                    return true;
+                } else if (id == R.id.search_activity) {
+                    Intent searchIntent = new Intent(HomeActivity.this, SearchActivity2.class);
+                    startActivity(searchIntent);
+                    return true;
+                } else if (id == R.id.filter_activity) {
+                    Intent filterIntent = new Intent(HomeActivity.this, FilterMealsActivity.class);
+                    startActivity(filterIntent);
+                    return true;
+                }
+             else if (id == R.id.navigation_favourite) {
+                Intent favoriteIntent = new Intent(HomeActivity.this, FavoriteActivity.class);
+                startActivity(favoriteIntent);
+                return true;
+            }
+                return false;
+            }
+        });
     }
 
 

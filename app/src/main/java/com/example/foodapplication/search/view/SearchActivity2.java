@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.example.foodapplication.AllMeals.View.IAllMealsView;
 import com.example.foodapplication.AllMeals.View.MealsAdapter;
 import com.example.foodapplication.AllMeals.controller.AllMealsPresenter;
+import com.example.foodapplication.Model.LocalDataSource;
 import com.example.foodapplication.Model.Meal;
 import com.example.foodapplication.Model.Repository;
 import com.example.foodapplication.R;
@@ -48,6 +49,7 @@ public class SearchActivity2 extends AppCompatActivity implements ISearchMealsVi
         btnSearch=findViewById(R.id.btnSearch);
         searchText=findViewById(R.id.textSreach);
 
+
         textCategory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -57,7 +59,7 @@ public class SearchActivity2 extends AppCompatActivity implements ISearchMealsVi
                     @Override
                     public void onClick(View v) {
 
-                        mealsPresenter=new SearchMealsPresenter(SearchActivity2.this,Repository.getRepository(RemoteDBSource.getInstance()),searchText.getText().toString());
+                        mealsPresenter=new SearchMealsPresenter(SearchActivity2.this,Repository.getRepository(LocalDataSource.getInstance(SearchActivity2.this),RemoteDBSource.getInstance()),searchText.getText().toString());
 
                         mealsPresenter.getMealsByCategories();
                     }
@@ -74,7 +76,7 @@ public class SearchActivity2 extends AppCompatActivity implements ISearchMealsVi
                     @Override
                     public void onClick(View v) {
 
-                        mealsPresenter=new SearchMealsPresenter(SearchActivity2.this,Repository.getRepository(RemoteDBSource.getInstance()),searchText.getText().toString());
+                        mealsPresenter=new SearchMealsPresenter(SearchActivity2.this,Repository.getRepository(LocalDataSource.getInstance(SearchActivity2.this),RemoteDBSource.getInstance()),searchText.getText().toString());
 
                         mealsPresenter.getMealsByArea();
                     }
@@ -92,7 +94,7 @@ public class SearchActivity2 extends AppCompatActivity implements ISearchMealsVi
                     @Override
                     public void onClick(View v) {
 
-                        mealsPresenter=new SearchMealsPresenter(SearchActivity2.this,Repository.getRepository(RemoteDBSource.getInstance()),searchText.getText().toString());
+                        mealsPresenter=new SearchMealsPresenter(SearchActivity2.this,Repository.getRepository(LocalDataSource.getInstance(SearchActivity2.this),RemoteDBSource.getInstance()),searchText.getText().toString());
 
                         mealsPresenter.getMealsByName();
                     }
@@ -110,7 +112,7 @@ public class SearchActivity2 extends AppCompatActivity implements ISearchMealsVi
                     @Override
                     public void onClick(View v) {
 
-                        mealsPresenter=new SearchMealsPresenter(SearchActivity2.this,Repository.getRepository(RemoteDBSource.getInstance()),searchText.getText().toString());
+                        mealsPresenter=new SearchMealsPresenter(SearchActivity2.this,Repository.getRepository(LocalDataSource.getInstance(SearchActivity2.this),RemoteDBSource.getInstance()),searchText.getText().toString());
 
                         mealsPresenter.getMealsByIngredient();
                     }

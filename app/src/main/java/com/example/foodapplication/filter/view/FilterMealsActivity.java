@@ -9,6 +9,7 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.widget.CompoundButton;
 
+import com.example.foodapplication.Model.LocalDataSource;
 import com.example.foodapplication.Model.Meal;
 import com.example.foodapplication.Model.Repository;
 import com.example.foodapplication.R;
@@ -55,7 +56,7 @@ public class FilterMealsActivity extends AppCompatActivity implements IFilterMea
             chip.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    mealsPresenter=new FilterPresenter(FilterMealsActivity.this, Repository.getRepository(RemoteDBSource.getInstance()));
+                    mealsPresenter=new FilterPresenter(FilterMealsActivity.this, Repository.getRepository(LocalDataSource.getInstance(FilterMealsActivity.this),RemoteDBSource.getInstance()));
 
                     if(isChecked){
                         if (chip.getText().toString().equalsIgnoreCase("Category")) {
@@ -102,7 +103,7 @@ public class FilterMealsActivity extends AppCompatActivity implements IFilterMea
     @Override
     public void onFilterClickListener(String name) {
 
-        mealsPresenter=new FilterPresenter(FilterMealsActivity.this, Repository.getRepository(RemoteDBSource.getInstance()),name);
+        mealsPresenter=new FilterPresenter(FilterMealsActivity.this, Repository.getRepository(LocalDataSource.getInstance(this),RemoteDBSource.getInstance()),name);
         if(type==0){
             mealsPresenter.filterMealsByCategories();
         }

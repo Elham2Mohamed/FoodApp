@@ -32,6 +32,10 @@ public class AllMealsPresenter implements IAllMealsPresenter, NetworkCallback {
     public void getCategories() {
 
     }
+    public void addToFav(Meal meal) {
+        repository.addMeal(meal);
+    }
+
 
     @Override
     public void getRandomMeal() {

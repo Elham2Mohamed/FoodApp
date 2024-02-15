@@ -41,4 +41,8 @@
     <string name="filter">Filter</string>
     <string name="get_started">Get started</string>
     <string name="food_for_everyone">Food for Everyone</string>
+    <string name="favorite_meals">Favorite Meals</string>
+    <string name="day">Day</string>
+    <string name="weekly_meal_planner">Weekly Meal Planner</string>
+    <string name="take_a_look_to_learn">Take a look to learn</string>
 </resources>

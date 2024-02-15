@@ -5,14 +5,16 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
+
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.foodapplication.Model.Categories;
 import com.example.foodapplication.Model.Meal;
+import androidx.annotation.NonNull;
 import com.example.foodapplication.R;
 import com.example.foodapplication.home.view.IAllCategoriestView;
 import com.squareup.picasso.Picasso;
@@ -23,14 +25,16 @@ import java.util.List;
 public class MealsAdapter extends RecyclerView.Adapter<MealsAdapter.ViewHolder> {
     private Context context;
     private List<Meal> meals;
+    private OnFavMealClickListener listener;
 
     private static final String TAG = "ListAdapter";
 
 
 
-    public MealsAdapter(@NonNull IAllMealsView context) {
+    public MealsAdapter(@NonNull IAllMealsView context,OnFavMealClickListener listener) {
         this.context = (Context) context;
         this.meals = new ArrayList<>();
+        this.listener=listener;
 
     }
 
@@ -58,6 +62,12 @@ public class MealsAdapter extends RecyclerView.Adapter<MealsAdapter.ViewHolder> 
     public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         holder.name.setText(meals.get(position).getStrMeal());
        Picasso.get().load(meals.get(position).getStrMealThumb()).into(holder.imageView);
+        holder.btnFav.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onFavMealClickListener(meals.get(position));
+            }
+        });
     }
 
     @Override
@@ -68,10 +78,11 @@ public class MealsAdapter extends RecyclerView.Adapter<MealsAdapter.ViewHolder> 
         public TextView name;
         public ImageView imageView;
         public View layout;
+        ImageButton btnFav;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             layout=itemView;
-
+            btnFav=itemView.findViewById(R.id.imgfav);
             imageView=itemView.findViewById(R.id.imgMeal);
             name=itemView.findViewById(R.id.txtFoodName);
 

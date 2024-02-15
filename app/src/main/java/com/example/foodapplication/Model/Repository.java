@@ -1,20 +1,42 @@
 package com.example.foodapplication.Model;
 
+import androidx.lifecycle.LiveData;
+
 import com.example.foodapplication.network.RemoteDBSource;
 import com.example.foodapplication.network.NetworkCallback;
 
-public class Repository {
+import java.util.List;
 
+public class Repository {
+   LocalDataSource localDataSource;
     RemoteDBSource remoteDBSource;
     private static Repository repository=null;
-    private Repository(RemoteDBSource remoteDBSource) {
-
+    private Repository(LocalDataSource localDataSource, RemoteDBSource remoteDBSource) {
+        this.localDataSource = localDataSource;
         this.remoteDBSource = remoteDBSource;
     }
-    public static Repository getRepository(RemoteDBSource remoteDBSource){
-        if(repository==null)
-            repository=new Repository(remoteDBSource);
+
+    // Factory method to create Repository instance with both LocalDataSource and RemoteDBSource
+    public static Repository getRepository(LocalDataSource localDataSource, RemoteDBSource remoteDBSource) {
+        if (repository == null)
+            repository = new Repository(localDataSource, remoteDBSource);
         return repository;
+    }
+
+    public void getMealDetailsByName(NetworkCallback networkCallback,String name){
+        remoteDBSource.makeNetworkCallSearchByName(networkCallback,name);
+    }
+    public LiveData<List<Meal>> getMeals() {
+        return localDataSource.getAllStoreMeals();
+    }
+
+
+    public void addMeal(Meal meal){
+        localDataSource.insertMeal(meal);
+    }
+
+    public void removeMeal(Meal meal){
+        localDataSource.deleteMeal(meal);
     }
 
 
@@ -39,6 +61,7 @@ public class Repository {
     public void getMealsByName(NetworkCallback networkCallback,String name){
         remoteDBSource.makeNetworkCallSearchByName(networkCallback,name);
     }
+
     public void getMealsByIngredient(NetworkCallback networkCallback,String ingredient){
         remoteDBSource.makeNetworkCallSearchByIngredient(networkCallback,ingredient);
     }
