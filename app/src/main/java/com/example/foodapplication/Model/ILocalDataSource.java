@@ -8,4 +8,6 @@ public interface ILocalDataSource {
     void insertMeal(Meal product);
     void deleteMeal(Meal product);
     LiveData<List<Meal>> getAllStoreMeals();
+
+
 }

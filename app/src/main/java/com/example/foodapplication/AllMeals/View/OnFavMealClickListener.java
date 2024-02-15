@@ -4,5 +4,5 @@ import com.example.foodapplication.Model.Meal;
 
 public interface OnFavMealClickListener {
     void onFavMealClickListener(Meal meal);
-
+    void onMealDetailsClickListener(String name);
 }

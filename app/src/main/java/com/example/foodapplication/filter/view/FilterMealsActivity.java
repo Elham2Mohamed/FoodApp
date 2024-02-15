@@ -6,9 +6,11 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.CompoundButton;
 
+import com.example.foodapplication.Meal.View.MealActivity;
 import com.example.foodapplication.Model.LocalDataSource;
 import com.example.foodapplication.Model.Meal;
 import com.example.foodapplication.Model.Repository;
@@ -118,9 +120,21 @@ public class FilterMealsActivity extends AppCompatActivity implements IFilterMea
         recyclerView2.setHasFixedSize(true);
         layoutManager2 = new GridLayoutManager(this,2,RecyclerView.VERTICAL,false);
         layoutManager2.setOrientation(RecyclerView.VERTICAL);
-        mealsAdapter =new MealsAdapter(this);
+        mealsAdapter =new MealsAdapter(this,this);
         recyclerView2.setLayoutManager(layoutManager2);
         recyclerView2.setAdapter(mealsAdapter);
 
     }
+    @SuppressLint("NotifyDataSetChanged")
+    @Override
+    public void onFavMealClickListener(Meal meal) {
+        mealsPresenter.addToFav(meal);
+    }
+    @Override
+    public void onMealDetailsClickListener(String name) {
+        Intent intent = new Intent(this, MealActivity.class);
+        intent.putExtra("mealName", name);
+        startActivity(intent);
+    }
+
 }

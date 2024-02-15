@@ -26,6 +26,9 @@ public class SearchMealsPresenter implements ISearchMealsPresenter, NetworkCallb
             repository.getMealsByCategories(this,name);
 
     }
+    public void addToFav(Meal meal) {
+        repository.addMeal(meal);
+    }
 
     @Override
     public void getMealsByArea() {

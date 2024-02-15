@@ -24,6 +24,9 @@ public class MealPresenter implements IMealPresenter, NetworkCallback {
     public void getMealDetails() {
         repository.getMealDetailsByName(this, mealName);
     }
+    public void addToFav(Meal meal) {
+        repository.addMeal(meal);
+    }
 
     @Override
     public void onFailureResultMeals(String errorMsg) {

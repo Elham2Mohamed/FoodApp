@@ -6,19 +6,19 @@ import java.util.List;
 public class MealUtils {
     public static List<MealIngredients> extractIngredients(Meal meal) {
         List<MealIngredients> ingredientsList = new ArrayList<>();
-        Field[] fields = meal.getClass().getDeclaredFields();
         try {
-            for (Field field : fields) {
-                field.setAccessible(true);
-                String fieldName = field.getName();
-                if (fieldName.startsWith("strIngredient") && field.get(meal) != null) {
-                    String ingredientName = (String) field.get(meal);
-                    String measureField = "strMeasure" + fieldName.substring("strIngredient".length());
-                    Field measureFieldRef = meal.getClass().getDeclaredField(measureField);
-                    measureFieldRef.setAccessible(true);
-                    String measurement = (String) measureFieldRef.get(meal);
-                    MealIngredients ingredient = new MealIngredients(ingredientName, measurement);
-                    ingredientsList.add(ingredient);
+            for (int i = 1; i <= 20; i++) {
+                String ingredientFieldName = "strIngredient" + i;
+                String measureFieldName = "strMeasure" + i;
+                Field ingredientField = meal.getClass().getDeclaredField(ingredientFieldName);
+                Field measureField = meal.getClass().getDeclaredField(measureFieldName);
+                ingredientField.setAccessible(true);
+                measureField.setAccessible(true);
+                String ingredient = (String) ingredientField.get(meal);
+                String measure = (String) measureField.get(meal);
+                if (ingredient != null && !ingredient.isEmpty() && measure != null && !measure.isEmpty()) {
+                    MealIngredients mealIngredients = new MealIngredients(ingredient, measure);
+                    ingredientsList.add(mealIngredients);
                 }
             }
         } catch (IllegalAccessException | NoSuchFieldException e) {

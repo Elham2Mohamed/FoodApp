@@ -68,6 +68,12 @@ public class MealsAdapter extends RecyclerView.Adapter<MealsAdapter.ViewHolder> 
                 listener.onFavMealClickListener(meals.get(position));
             }
         });
+        holder.layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onMealDetailsClickListener(meals.get(position).getStrMeal());
+            }
+        });
     }
 
     @Override

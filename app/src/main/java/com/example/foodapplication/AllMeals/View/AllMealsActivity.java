@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.content.Intent;
 import com.example.foodapplication.AllMeals.controller.AllMealsPresenter;
+import com.example.foodapplication.Meal.View.MealActivity;
 import com.example.foodapplication.Model.LocalDataSource;
 import com.example.foodapplication.Model.Meal;
 import com.example.foodapplication.Model.Repository;
@@ -89,5 +90,12 @@ public class AllMealsActivity extends AppCompatActivity implements IAllMealsView
         mealsPresenter.addToFav(meal);
         mealsAdapter.notifyDataSetChanged();
 
+    }
+
+    @Override
+    public void onMealDetailsClickListener(String name) {
+        Intent intent = new Intent(this, MealActivity.class);
+        intent.putExtra("mealName", name);
+        startActivity(intent);
     }
 }

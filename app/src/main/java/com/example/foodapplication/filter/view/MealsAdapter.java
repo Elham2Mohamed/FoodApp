@@ -5,6 +5,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -21,15 +22,17 @@ import java.util.List;
 
 public class MealsAdapter extends RecyclerView.Adapter<MealsAdapter.ViewHolder> {
     private Context context;
+    private OnFilterClickListener listener;
     private List<Meal> meals;
 
     private static final String TAG = "ListAdapter";
 
 
 
-    public MealsAdapter(@NonNull IFilterMealsView context) {
+    public MealsAdapter(@NonNull IFilterMealsView context,OnFilterClickListener listener) {
         this.context = (Context) context;
         this.meals = new ArrayList<>();
+        this.listener=listener;
 
     }
 
@@ -57,6 +60,19 @@ public class MealsAdapter extends RecyclerView.Adapter<MealsAdapter.ViewHolder> 
     public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         holder.name.setText(meals.get(position).getStrMeal());
        Picasso.get().load(meals.get(position).getStrMealThumb()).into(holder.imageView);
+        holder.layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onMealDetailsClickListener(meals.get(position).getStrMeal());
+            }
+        });
+        holder.btnAddFAV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onFavMealClickListener(meals.get(position));
+            }
+        });
+
     }
 
     @Override
@@ -67,10 +83,11 @@ public class MealsAdapter extends RecyclerView.Adapter<MealsAdapter.ViewHolder> 
         public TextView name;
         public ImageView imageView;
         public View layout;
+        ImageButton btnAddFAV;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             layout=itemView;
-
+            btnAddFAV=itemView.findViewById(R.id.imgfav);
             imageView=itemView.findViewById(R.id.imgMeal);
             name=itemView.findViewById(R.id.txtFoodName);
 

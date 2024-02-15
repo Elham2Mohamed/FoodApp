@@ -7,9 +7,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.example.foodapplication.Favorite.controller.FavMealPresenter;
+import com.example.foodapplication.Meal.View.MealActivity;
 import com.example.foodapplication.Model.LocalDataSource;
 import com.example.foodapplication.Model.Meal;
 import com.example.foodapplication.Model.Repository;
@@ -60,9 +62,14 @@ public void showData(LiveData<List<Meal>> meals) {
 public void onChanged(List<Meal> meals1) {
         favoriteAdapter.setValues(meals1);
         favoriteAdapter.notifyDataSetChanged();
-        }
-        });
+      }
+   });
 
 
+}
+        public void onMealDetailsClickListener(String name) {
+                Intent intent = new Intent(this, MealActivity.class);
+                intent.putExtra("mealName", name);
+                startActivity(intent);
         }
-        }
+}

@@ -31,6 +31,9 @@ public class FilterPresenter implements IFilterPresenter, NetworkCallback {
             repository.getAllCATName(this);
 
     }
+    public void addToFav(Meal meal) {
+        repository.addMeal(meal);
+    }
 
     @Override
     public void getMealsByArea() {

@@ -26,6 +26,9 @@ public class HomePresenter implements IHomePresenter, NetworkCallback {
     public void getCategories() {
         repository.getAllCat(this);
     }
+    public void addToFav(Meal meal) {
+        repository.addMeal(meal);
+    }
 
     @Override
     public void getRandomMeal() {

@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 import com.example.foodapplication.AllMeals.View.IAllMealsView;
 import com.example.foodapplication.AllMeals.View.MealsAdapter;
 import com.example.foodapplication.AllMeals.controller.AllMealsPresenter;
+import com.example.foodapplication.Meal.View.MealActivity;
 import com.example.foodapplication.Model.LocalDataSource;
 import com.example.foodapplication.Model.Meal;
 import com.example.foodapplication.Model.Repository;
@@ -24,7 +26,7 @@ import com.example.foodapplication.search.controller.SearchMealsPresenter;
 
 import java.util.List;
 
-public class SearchActivity2 extends AppCompatActivity implements ISearchMealsView {
+public class SearchActivity2 extends AppCompatActivity implements ISearchMealsView,OnSearchClickListener {
     RecyclerView recyclerView;
     TextView type;
     ImageButton btnBack;
@@ -127,7 +129,7 @@ public class SearchActivity2 extends AppCompatActivity implements ISearchMealsVi
         recyclerView.setHasFixedSize(true);
         layoutManager = new GridLayoutManager(this,2,RecyclerView.VERTICAL,false);
         layoutManager.setOrientation(RecyclerView.VERTICAL);
-        mealsAdapter =new SearchMealsAdapter(this);
+        mealsAdapter =new SearchMealsAdapter(this,this);
        recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(mealsAdapter);
 
@@ -147,5 +149,16 @@ public class SearchActivity2 extends AppCompatActivity implements ISearchMealsVi
         builder.setMessage(error).setTitle("An Error Occurred");
         AlertDialog dialog=builder.create();
         dialog.show();
+    }
+    @SuppressLint("NotifyDataSetChanged")
+    @Override
+    public void onFavMealClickListener(Meal meal) {
+        mealsPresenter.addToFav(meal);
+    }
+    @Override
+    public void onMealDetailsClickListener(String name) {
+        Intent intent = new Intent(this, MealActivity.class);
+        intent.putExtra("mealName", name);
+        startActivity(intent);
     }
 }

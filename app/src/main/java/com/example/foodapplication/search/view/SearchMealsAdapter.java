@@ -5,6 +5,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -12,8 +13,10 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.foodapplication.AllMeals.View.IAllMealsView;
+import com.example.foodapplication.Meal.View.MealActivity;
 import com.example.foodapplication.Model.Meal;
 import com.example.foodapplication.R;
+import com.example.foodapplication.home.view.OnCategoriesClickListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -22,15 +25,15 @@ import java.util.List;
 public class SearchMealsAdapter extends RecyclerView.Adapter<SearchMealsAdapter.ViewHolder> {
     private Context context;
     private List<Meal> meals;
-
+    static OnSearchClickListener listener;
     private static final String TAG = "ListAdapter";
 
 
 
-    public SearchMealsAdapter(@NonNull ISearchMealsView context) {
+    public SearchMealsAdapter(@NonNull ISearchMealsView context,OnSearchClickListener listener) {
         this.context = (Context) context;
         this.meals = new ArrayList<>();
-
+         this.listener=listener;
     }
 
     @Override
@@ -57,6 +60,19 @@ public class SearchMealsAdapter extends RecyclerView.Adapter<SearchMealsAdapter.
     public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         holder.name.setText(meals.get(position).getStrMeal());
        Picasso.get().load(meals.get(position).getStrMealThumb()).into(holder.imageView);
+
+        holder.layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onMealDetailsClickListener(meals.get(position).getStrMeal());
+            }
+        });
+        holder.btnAddFAV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onFavMealClickListener(meals.get(position));
+            }
+        });
     }
 
     @Override
@@ -67,10 +83,11 @@ public class SearchMealsAdapter extends RecyclerView.Adapter<SearchMealsAdapter.
         public TextView name;
         public ImageView imageView;
         public View layout;
+        ImageButton btnAddFAV;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             layout=itemView;
-
+            btnAddFAV=itemView.findViewById(R.id.imgfav);
             imageView=itemView.findViewById(R.id.imgMeal);
             name=itemView.findViewById(R.id.txtFoodName);
 

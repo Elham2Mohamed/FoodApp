@@ -60,6 +60,12 @@ public ViewHolder onCreateViewHolder(@NonNull ViewGroup recyeclerView, int viewT
         if(holder.imageView != null) {
             Picasso.get().load(values.get(position).getStrMealThumb()).into(holder.imageView);
         }
+        holder.layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onMealDetailsClickListener(values.get(position).getStrMeal());
+            }
+        });
         holder.removeProduct.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

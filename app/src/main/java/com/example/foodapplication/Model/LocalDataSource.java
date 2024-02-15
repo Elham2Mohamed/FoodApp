@@ -48,4 +48,5 @@ public class LocalDataSource implements ILocalDataSource{
     public LiveData<List<Meal>> getAllStoreMeals() {
         return Meals;
     }
+
 }

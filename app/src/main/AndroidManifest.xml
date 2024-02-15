@@ -19,7 +19,7 @@
         android:theme="@style/Theme.FoodApplication"
         tools:targetApi="31">
         <activity
-            android:name=".WeeklyMealActivity"
+            android:name=".weeklyMeal.view.WeeklyMealActivity"
             android:exported="false" />
         <activity
             android:name=".Favorite.view.FavoriteActivity"
@@ -37,10 +37,10 @@
             android:name=".search.view.SearchActivity2"
             android:exported="false" />
         <activity
-            android:name=".home.view.HomeActivity"
+            android:name=".Meal.View.MealActivity"
             android:exported="false" />
         <activity
-            android:name=".SplashActivity"
+            android:name=".home.view.HomeActivity"
             android:exported="false" />
         <activity
             android:name=".AllMeals.View.AllMealsActivity"
@@ -49,7 +49,7 @@
             android:name=".LoginActivity"
             android:exported="false" />
        <activity
-            android:name=".Meal.View.MealActivity"
+            android:name=".SplashActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
