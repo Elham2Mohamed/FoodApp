@@ -63,8 +63,6 @@ public class MainActivity2 extends AppCompatActivity {
 
         gOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
         gClient = GoogleSignIn.getClient(this, gOptions);
-        sharedPreferences = getSharedPreferences(MainActivity2.PREFERENCES, Context.MODE_PRIVATE);
-
 
 
 

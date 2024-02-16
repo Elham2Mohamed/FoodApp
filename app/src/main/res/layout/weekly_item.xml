@@ -36,7 +36,6 @@
                 android:id="@+id/product_container2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
                 android:background="#6B121111"
                 android:orientation="horizontal"
                 android:padding="10dp"

@@ -19,19 +19,12 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingConstraints">
 
-        <ImageButton
-            android:id="@+id/btnBack"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:padding="16dp"
-            app:srcCompat="?attr/homeAsUpIndicator" />
-
         <TextView
             android:id="@+id/textSearchType"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:layout_marginStart="14dp"
             android:paddingTop="14dp"
             android:text="@string/favorite_meals"
             android:textSize="22sp"

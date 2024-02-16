@@ -58,6 +58,10 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.core.Flowable;
+import io.reactivex.rxjava3.schedulers.Schedulers;
+
 
 public class FavouriteFragment extends Fragment implements OnMealClickListener, FavMealView {
     LiveData<List<Meal>> meals;
@@ -102,17 +106,17 @@ public class FavouriteFragment extends Fragment implements OnMealClickListener, 
         favoriteAdapter.notifyDataSetChanged();
     }
 
-    @SuppressLint("NotifyDataSetChanged")
+    @SuppressLint({"NotifyDataSetChanged", "CheckResult"})
     @Override
-    public void showData(LiveData<List<Meal>> meals) {
-        meals.observe(this, new Observer<List<Meal>>() {
-            @Override
-            public void onChanged(List<Meal> meals1) {
-                favoriteAdapter.setValues(meals1);
-                favoriteAdapter.notifyDataSetChanged();
-            }
-        });
-
+    public void showData(Flowable<List<Meal>> meals) {
+        meals.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        item -> {
+                            favoriteAdapter.setValues(item);
+                            favoriteAdapter.notifyDataSetChanged();
+                        }
+                );
 
     }
     public void onMealDetailsClickListener(String name) {

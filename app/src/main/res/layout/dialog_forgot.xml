@@ -16,23 +16,25 @@
         android:background="@drawable/white_box">
 
         <TextView
+            android:id="@+id/forgotTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/forgotTitle"
-            android:text="Forgot Password"
             android:background="@color/app_color"
-            android:padding="10dp"
-            android:textSize="17sp"
-            android:textColor="@color/white"
             android:drawableLeft="@drawable/ic_baseline_lock_reset_24"
             android:drawablePadding="8dp"
-            app:layout_constraintTop_toTopOf="parent"/>
+            android:padding="10dp"
+            android:text="@string/forgot_password_"
+            android:textColor="@color/white"
+            android:textSize="17sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/desc"
-            android:text="Enter your email address:"
+            android:text="@string/enter_your_email_address"
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
             android:layout_marginTop="8dp"
@@ -76,7 +78,7 @@
             android:layout_width="0dp"
             android:layout_height="50dp"
             android:id="@+id/btnReset"
-            android:text="Reset"
+            android:text="@string/reset"
             android:backgroundTint="@color/app_color"
             android:layout_marginStart="10dp"
             android:layout_marginBottom="8dp"

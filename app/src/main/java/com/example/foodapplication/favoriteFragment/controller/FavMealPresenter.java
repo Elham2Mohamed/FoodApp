@@ -10,6 +10,8 @@ import com.example.foodapplication.Model.Repository;
 
 import java.util.List;
 
+import io.reactivex.rxjava3.core.Flowable;
+
 public class FavMealPresenter implements IFavMealPresenter {
     private FavMealView view;
     private Repository repository;
@@ -21,9 +23,9 @@ public class FavMealPresenter implements IFavMealPresenter {
 
     @Override
     public void getFavMeal() {
-        LiveData<List<Meal>> meals= repository.getMeals();
+        Flowable<List<Meal>> meals= repository.getMeals();
         if (meals != null) {
-                    view.showData((LiveData<List<Meal>>) meals);
+                    view.showData((Flowable<List<Meal>>) meals);
                 }
           else {
             Log.i("TAG", "getFavMeal: ");

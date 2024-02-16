@@ -46,7 +46,6 @@ public class AllMealsActivity extends AppCompatActivity implements IAllMealsView
             categoryName = intent.getStringExtra("name");
         }
 
-        btnBack=findViewById(R.id.btnBack);
         type=findViewById(R.id.textType);
         type.setText(categoryName);
         recyclerView = findViewById(R.id.recyclerViewAllMeals);

@@ -9,10 +9,12 @@ import com.example.foodapplication.db.AppDataBase;
 
 import java.util.List;
 
+import io.reactivex.rxjava3.core.Flowable;
+
 public class LocalDataSource implements ILocalDataSource{
     private MealDAO mealDAO;
     private static LocalDataSource LocalDataSource =null;
-    private LiveData<List<Meal>> Meals;
+    private Flowable<List<Meal>> Meals;
     public LocalDataSource(Context context) {
         AppDataBase dataBase =AppDataBase.getInstance(context.getApplicationContext());
         mealDAO =dataBase.getMealsDAO();
@@ -45,7 +47,7 @@ public class LocalDataSource implements ILocalDataSource{
     }
 
     @Override
-    public LiveData<List<Meal>> getAllStoreMeals() {
+    public Flowable<List<Meal>> getAllStoreMeals() {
         return Meals;
     }
 

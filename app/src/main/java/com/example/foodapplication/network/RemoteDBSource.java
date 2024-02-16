@@ -6,6 +6,11 @@ import android.util.Log;
 import com.example.foodapplication.Model.CategoriesResponse;
 import com.example.foodapplication.Model.MealResponse;
 
+import hu.akarnokd.rxjava3.retrofit.RxJava3CallAdapterFactory;
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.core.Single;
+import io.reactivex.rxjava3.disposables.Disposable;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -18,9 +23,11 @@ public class RemoteDBSource implements IRemoteDataSource {
     private static RemoteDBSource remoteDBSource =null;
     private Service service;
     private RemoteDBSource() {
-        Retrofit retrofit = new Retrofit.Builder().baseUrl(BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create()).build();
-        service = retrofit.create(Service.class);
+        Retrofit retrofit =new Retrofit.Builder().baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
+                .build();
+          service = retrofit.create(Service.class);
 
 
     }
@@ -30,233 +37,135 @@ public class RemoteDBSource implements IRemoteDataSource {
         return remoteDBSource;
     }
     public void makeNetworkCallCategories(NetworkCallback networkCallback){
-       Call<CategoriesResponse> call= service.getAllCategories();
-       call.enqueue(new Callback<CategoriesResponse>() {
-           @Override
-           public void onResponse(Call<CategoriesResponse> call, Response<CategoriesResponse> response) {
-               if(response.isSuccessful()) {
-                   assert response.body() != null;
-                   networkCallback.onSuccessResultCategories(response.body().getCategories());
-                   Log.i(TAG, "onResponse:onSuccessResult ");
+        Single<CategoriesResponse> call= service.getAllCategories();
+        Disposable subscribe = call.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        item -> {
+                            assert item != null;
+                            networkCallback.onSuccessResultCategories(item.getCategories());
+                        },
+                        error -> networkCallback.onFailureResultCategories(error.getMessage())
 
-               }
-               else {
-                   networkCallback.onFailureResultCategories("Response not successful");
-               }
+                );
            }
-
-           @Override
-           public void onFailure(Call<CategoriesResponse> call, Throwable t) {
-             networkCallback.onFailureResultCategories(t.getMessage());
-             t.printStackTrace();
-               Log.i(TAG, "onResponse:onFailureResult ");
-           }
-       });
-    }
 
     @Override
     public void makeNetworkCallArea(NetworkCallback networkCallback) {
-        Call<MealResponse> call= service.getAreaName();
-        call.enqueue(new Callback<MealResponse>() {
-            @Override
-            public void onResponse(Call<MealResponse> call, Response<MealResponse> response) {
-                if(response.isSuccessful()) {
-                    assert response.body() != null;
-                    networkCallback.onSuccessFilterMeals(response.body().getMeals());
-                    Log.i(TAG, "onResponse:onSuccessResult ");
+        Single<MealResponse> call= service.getAreaName();
+        Disposable subscribe = call.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        item -> {
+                            assert item != null;
+                            networkCallback.onSuccessFilterMeals(item.getMeals());
+                        },
+                        error -> networkCallback.onFailureResultMeals(error.getMessage())
 
-                }
-                else {
-                    networkCallback.onFailureResultMeals("Response not successful");
-                }
-            }
+                );
 
-            @Override
-            public void onFailure(Call<MealResponse> call, Throwable t) {
-                networkCallback.onFailureResultCategories(t.getMessage());
-                t.printStackTrace();
-                Log.i(TAG, "onResponse:onFailureResult ");
             }
-        });
-    }
     @Override
     public void makeNetworkCallCategorie(NetworkCallback networkCallback) {
-        Call<MealResponse> call= service.getCategoriesName();
-        call.enqueue(new Callback<MealResponse>() {
-            @Override
-            public void onResponse(Call<MealResponse> call, Response<MealResponse> response) {
-                if(response.isSuccessful()) {
-                    assert response.body() != null;
-                    networkCallback.onSuccessFilterMeals(response.body().getMeals());
-                    Log.i(TAG, "onResponse:onSuccessResult ");
+        Single<MealResponse> call= service.getCategoriesName();
+        Disposable subscribe = call.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        item -> {
+                            assert item != null;
+                            networkCallback.onSuccessFilterMeals(item.getMeals());
+                        },
+                        error -> networkCallback.onFailureResultMeals(error.getMessage())
 
-                }
-                else {
-                    networkCallback.onFailureResultMeals("Response not successful");
-                }
-            }
-
-            @Override
-            public void onFailure(Call<MealResponse> call, Throwable t) {
-                networkCallback.onFailureResultCategories(t.getMessage());
-                t.printStackTrace();
-                Log.i(TAG, "onResponse:onFailureResult ");
-            }
-        });
+                );
     }
 
     @Override
     public void makeNetworkCallIngredients(NetworkCallback networkCallback) {
-        Call<MealResponse> call= service.getIngredientName();
-        call.enqueue(new Callback<MealResponse>() {
-            @Override
-            public void onResponse(Call<MealResponse> call, Response<MealResponse> response) {
-                if(response.isSuccessful()) {
-                    assert response.body() != null;
-                    networkCallback.onSuccessFilterMeals(response.body().getMeals());
-                    Log.i(TAG, "onResponse:onSuccessResult ");
+        Single<MealResponse> call= service.getIngredientName();
+        Disposable subscribe = call.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        item -> {
+                            assert item != null;
+                            networkCallback.onSuccessFilterMeals(item.getMeals());
+                        },
+                        error -> networkCallback.onFailureResultMeals(error.getMessage())
 
-                }
-                else {
-                    networkCallback.onFailureResultMeals("Response not successful");
-                }
-            }
-
-            @Override
-            public void onFailure(Call<MealResponse> call, Throwable t) {
-                networkCallback.onFailureResultCategories(t.getMessage());
-                t.printStackTrace();
-                Log.i(TAG, "onResponse:onFailureResult ");
-            }
-        });
+                );
     }
 
     @Override
     public void makeNetworkCallRandomMeal(NetworkCallback networkCallback) {
-        Call<MealResponse> call= service.getRandomMeal();
-        call.enqueue(new Callback<MealResponse>() {
-            @Override
-            public void onResponse(Call<MealResponse> call, Response<MealResponse> response) {
-                if(response.isSuccessful()) {
-                    assert response.body() != null;
-                    networkCallback.onSuccessResultMeals(response.body().getMeals());
-                    Log.i(TAG, "onResponse:onSuccessResult ");
+        Single<MealResponse> call= service.getRandomMeal();
+        Disposable subscribe = call.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        item -> {
+                            assert item != null;
+                            networkCallback.onSuccessResultMeals(item.getMeals());
+                        },
+                        error -> networkCallback.onFailureResultMeals(error.getMessage())
 
-                }
-                else {
-                    networkCallback.onFailureResultMeals("Response not successful");
-                }
-            }
-
-            @Override
-            public void onFailure(Call<MealResponse> call, Throwable t) {
-                networkCallback.onFailureResultMeals(t.getMessage());
-                t.printStackTrace();
-                Log.i(TAG, "onResponse:onFailureResult ");
-            }
-        });
+                );
     }
 
     @Override
     public void makeNetworkCallSearchByCategory(NetworkCallback networkCallback, String categoryName) {
-        Call<MealResponse> call= service.filterByCategory(categoryName);
-        call.enqueue(new Callback<MealResponse>() {
-            @Override
-            public void onResponse(Call<MealResponse> call, Response<MealResponse> response) {
-                if(response.isSuccessful()) {
-                    assert response.body() != null;
-                    networkCallback.onSuccessResultMeals(response.body().getMeals());
-                    Log.i(TAG, "onResponse:onSuccessResult ");
+        Single<MealResponse> call= service.filterByCategory(categoryName);
+        Disposable subscribe = call.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        item -> {
+                            assert item != null;
+                            networkCallback.onSuccessResultMeals(item.getMeals());
+                        },
+                        error -> networkCallback.onFailureResultMeals(error.getMessage())
 
-                }
-                else {
-                    networkCallback.onFailureResultMeals("Response not successful");
-                }
-            }
-
-            @Override
-            public void onFailure(Call<MealResponse> call, Throwable t) {
-                networkCallback.onFailureResultMeals(t.getMessage());
-                t.printStackTrace();
-                Log.i(TAG, "onResponse:onFailureResult ");
-            }
-        });
+                );
     }
     public void makeNetworkCallSearchByIngredient(NetworkCallback networkCallback,String ingredient){
-        Call<MealResponse> call= service.filterByIngredient(ingredient);
-        call.enqueue(new Callback<MealResponse>() {
-            @Override
-            public void onResponse(Call<MealResponse> call, Response<MealResponse> response) {
-                if(response.isSuccessful()) {
-                    assert response.body() != null;
-                    networkCallback.onSuccessResultMeals(response.body().getMeals());
-                    Log.i(TAG, "onResponse:onSuccessResult ");
+        Single<MealResponse> call= service.filterByIngredient(ingredient);
+        Disposable subscribe = call.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        item -> {
+                            assert item != null;
+                            networkCallback.onSuccessResultMeals(item.getMeals());
+                        },
+                        error -> networkCallback.onFailureResultMeals(error.getMessage())
 
-                }
-                else {
-                    networkCallback.onFailureResultMeals("Response not successful");
-                }
-            }
-
-            @Override
-            public void onFailure(Call<MealResponse> call, Throwable t) {
-                networkCallback.onFailureResultMeals(t.getMessage());
-                t.printStackTrace();
-                Log.i(TAG, "onResponse:onFailureResult ");
-            }
-        });
+                );
     }
 
     @Override
     public void makeNetworkCallSearchByName(NetworkCallback networkCallback, String name) {
-        Call<MealResponse> call= service.searchMealByName(name);
-        call.enqueue(new Callback<MealResponse>() {
-            @Override
-            public void onResponse(Call<MealResponse> call, Response<MealResponse> response) {
-                if(response.isSuccessful()) {
-                    assert response.body() != null;
-                    networkCallback.onSuccessResultMeals(response.body().getMeals());
-                    Log.i(TAG, "onResponse:onSuccessResult ");
+        Single<MealResponse> call= service.searchMealByName(name);
+        Disposable subscribe = call.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        item -> {
+                            assert item != null;
+                            networkCallback.onSuccessResultMeals(item.getMeals());
+                        },
+                        error -> networkCallback.onFailureResultMeals(error.getMessage())
 
-                }
-                else {
-                    networkCallback.onFailureResultMeals("Response not successful");
-                }
-            }
-
-            @Override
-            public void onFailure(Call<MealResponse> call, Throwable t) {
-                networkCallback.onFailureResultMeals(t.getMessage());
-                t.printStackTrace();
-                Log.i(TAG, "onResponse:onFailureResult ");
-            }
-        });
+                );
     }
 
 
 
     public void makeNetworkCallSearchByArea(NetworkCallback networkCallback,String area){
-        Call<MealResponse> call= service.filterByArea(area);
-        call.enqueue(new Callback<MealResponse>() {
-            @Override
-            public void onResponse(Call<MealResponse> call, Response<MealResponse> response) {
-                if(response.isSuccessful()) {
-                    assert response.body() != null;
-                    networkCallback.onSuccessResultMeals(response.body().getMeals());
-                    Log.i(TAG, "onResponse:onSuccessResult ");
+        Single<MealResponse> call= service.filterByArea(area);
+        Disposable subscribe = call.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        item -> {
+                            assert item != null;
+                            networkCallback.onSuccessResultMeals(item.getMeals());
+                        },
+                        error -> networkCallback.onFailureResultMeals(error.getMessage())
 
-                }
-                else {
-                    networkCallback.onFailureResultMeals("Response not successful");
-                }
-            }
-
-            @Override
-            public void onFailure(Call<MealResponse> call, Throwable t) {
-                networkCallback.onFailureResultMeals(t.getMessage());
-                t.printStackTrace();
-                Log.i(TAG, "onResponse:onFailureResult ");
-            }
-        });
+                );
     }
 }

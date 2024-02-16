@@ -10,10 +10,13 @@ import androidx.room.Query;
 import com.example.foodapplication.Model.Meal;
 
 import java.util.List;
+
+import io.reactivex.rxjava3.core.Flowable;
+
 @Dao
 public interface MealDAO {
     @Query("SELECT* FROM meals")
-    LiveData<List<Meal>> getAllMeals();
+    Flowable<List<Meal>> getAllMeals();
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     void insertMeal(Meal product);

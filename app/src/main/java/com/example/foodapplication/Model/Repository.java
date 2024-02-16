@@ -7,6 +7,8 @@ import com.example.foodapplication.network.NetworkCallback;
 
 import java.util.List;
 
+import io.reactivex.rxjava3.core.Flowable;
+
 public class Repository {
    LocalDataSource localDataSource;
     RemoteDBSource remoteDBSource;
@@ -26,7 +28,7 @@ public class Repository {
     public void getMealDetailsByName(NetworkCallback networkCallback,String name){
         remoteDBSource.makeNetworkCallSearchByName(networkCallback,name);
     }
-    public LiveData<List<Meal>> getMeals() {
+    public Flowable<List<Meal>> getMeals() {
         return localDataSource.getAllStoreMeals();
     }
 
