@@ -24,7 +24,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.foodapplication.AllMeals.View.AllMealsActivity;
-import com.example.foodapplication.Favorite.view.FavoriteActivity;
+import com.example.foodapplication.favoriteFragment.view.FavouriteFragment;
 import com.example.foodapplication.LoginActivity;
 import com.example.foodapplication.MainActivity;
 import com.example.foodapplication.Meal.View.MealActivity;
@@ -33,10 +33,10 @@ import com.example.foodapplication.Model.LocalDataSource;
 import com.example.foodapplication.Model.Repository;
 import com.example.foodapplication.Model.Meal;
 import com.example.foodapplication.R;
-import com.example.foodapplication.filter.view.FilterMealsActivity;
+import com.example.foodapplication.filterFragment.view.FilterFragment;
 import com.example.foodapplication.home.controller.HomePresenter;
 import com.example.foodapplication.network.RemoteDBSource;
-import com.example.foodapplication.search.view.SearchActivity2;
+import com.example.foodapplication.searchFragment.view.SearchFragment;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -57,14 +57,15 @@ public class HomeActivity extends AppCompatActivity implements IAllCategoriestVi
     private static final String PREFERENCES = "PREFERENCES";
     private static final String EMAIL = "email";
     private static final String PASSWORD = "password";
+    SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editor;
     TextView name,mealCategories;
     GridLayoutManager layoutManager;
     CategoriesAdapter categoriesAdapter;
     ImageButton btnFAV;
     HomePresenter allpresenter;
     CardView randomMeal;
-    SharedPreferences sharedPreferences;
-    SharedPreferences.Editor editor;
+
     @SuppressLint({"MissingSuperCall", "NonConstantResourceId"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,11 +108,11 @@ public class HomeActivity extends AppCompatActivity implements IAllCategoriestVi
                 if (id == R.id.home_activity) {
                     return true;
                 } else if (id == R.id.search_activity) {
-                    Intent searchIntent = new Intent(HomeActivity.this, SearchActivity2.class);
+                    Intent searchIntent = new Intent(HomeActivity.this, SearchFragment.class);
                     startActivity(searchIntent);
                     return true;
                 } else if (id == R.id.filter_activity) {
-                    Intent filterIntent = new Intent(HomeActivity.this, FilterMealsActivity.class);
+                    Intent filterIntent = new Intent(HomeActivity.this, FilterFragment.class);
                     startActivity(filterIntent);
                     return true;
                 }
@@ -119,7 +120,7 @@ public class HomeActivity extends AppCompatActivity implements IAllCategoriestVi
 
                             if (sharedPreferences.contains("email") && sharedPreferences.contains("password")) {
                                 // User has email and password stored, show logout confirmation dialog
-                                Intent favoriteIntent = new Intent(HomeActivity.this, FavoriteActivity.class);
+                                Intent favoriteIntent = new Intent(HomeActivity.this, FavouriteFragment.class);
                                 startActivity(favoriteIntent);
                             } else {
                                 // User does not have email and password stored, show dialog
@@ -132,7 +133,7 @@ public class HomeActivity extends AppCompatActivity implements IAllCategoriestVi
 
                     if (sharedPreferences.contains("email") && sharedPreferences.contains("password")) {
                         // User has email and password stored, show logout confirmation dialog
-                        Intent favoriteIntent = new Intent(HomeActivity.this, FavoriteActivity.class);
+                        Intent favoriteIntent = new Intent(HomeActivity.this, FavouriteFragment.class);
                         startActivity(favoriteIntent);
                     } else {
                         // User does not have email and password stored, show dialog
@@ -239,20 +240,6 @@ private void init(){
         startActivity(intent);
     }
 
-    private void allowLogout () {
-//        logout.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                if (sharedPreferences.contains("email") && sharedPreferences.contains("password")) {
-//                    // User has email and password stored, show logout confirmation dialog
-//                    showLogoutConfirmationDialog();
-//                } else {
-//                    // User does not have email and password stored, show dialog
-//                    showCreateAccountDialog();
-//                }
-//            }
-//        });
-    }
 
     private void showCreateAccountDialog () {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);

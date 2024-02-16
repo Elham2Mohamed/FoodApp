@@ -1,9 +1,8 @@
-package com.example.foodapplication.home.view;
+package com.example.foodapplication.searchFragment.view;
 
 import com.example.foodapplication.Model.Meal;
 
-public interface OnCategoriesClickListener {
-    void onCategoriesClickListener(String name);
+public interface OnSearchClickListener {
     void onFavMealClickListener(Meal meal);
     void onMealDetailsClickListener(String name);
 }

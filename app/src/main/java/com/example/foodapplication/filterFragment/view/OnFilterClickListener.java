@@ -1,9 +1,9 @@
-package com.example.foodapplication.home.view;
+package com.example.foodapplication.filterFragment.view;
 
 import com.example.foodapplication.Model.Meal;
 
-public interface OnCategoriesClickListener {
-    void onCategoriesClickListener(String name);
+public interface OnFilterClickListener {
+    void onFilterClickListener(String name);
     void onFavMealClickListener(Meal meal);
     void onMealDetailsClickListener(String name);
 }

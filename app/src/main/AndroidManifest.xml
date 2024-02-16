@@ -19,38 +19,42 @@
         android:theme="@style/Theme.FoodApplication"
         tools:targetApi="31">
         <activity
-            android:name=".weeklyMeal.view.WeeklyMealActivity"
-            android:exported="false" />
+            android:name=".MainActivity2"
+            android:exported="false"
+            android:screenOrientation="portrait"/>
         <activity
-            android:name=".Favorite.view.FavoriteActivity"
-            android:exported="false" />
+            android:name=".weeklyMeal.view.WeeklyMealActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"/>
+
         <activity
             android:name=".MainActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".SignUpActivity2"
-            android:exported="false" />
-        <activity
-            android:name=".filter.view.FilterMealsActivity"
-            android:exported="false" />
-        <activity
-            android:name=".search.view.SearchActivity2"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".Meal.View.MealActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".home.view.HomeActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".AllMeals.View.AllMealsActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".LoginActivity"
-            android:exported="false" />
-       <activity
+            android:exported="false"
+            android:screenOrientation="portrait"/>
+        <activity
             android:name=".SplashActivity"
-            android:exported="true">
+            android:exported="true"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />

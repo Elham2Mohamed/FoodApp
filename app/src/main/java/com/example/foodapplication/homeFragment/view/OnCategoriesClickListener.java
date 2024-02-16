@@ -1,4 +1,4 @@
-package com.example.foodapplication.home.view;
+package com.example.foodapplication.homeFragment.view;
 
 import com.example.foodapplication.Model.Meal;
 

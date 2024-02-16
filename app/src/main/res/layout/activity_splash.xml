@@ -28,7 +28,7 @@
         android:id="@+id/textView3"
         android:layout_width="match_parent"
         android:layout_height="59dp"
-        android:layout_marginTop="520dp"
+        android:layout_marginTop="548dp"
         android:fontFamily="@font/damion"
         android:gravity="center"
         android:text="@string/food_for_everyone"
