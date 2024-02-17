@@ -6,20 +6,26 @@ import androidx.lifecycle.LiveData;
 
 import com.example.foodapplication.db.MealDAO;
 import com.example.foodapplication.db.AppDataBase;
+import com.example.foodapplication.db.MealEntry;
+import com.example.foodapplication.db.MealEntryDao;
 
 import java.util.List;
 
 import io.reactivex.rxjava3.core.Flowable;
 
 public class LocalDataSource implements ILocalDataSource{
-    private MealDAO mealDAO;
+    private final MealDAO mealDAO;
+    private final MealEntryDao mealEntryDao;
     private static LocalDataSource LocalDataSource =null;
-    private Flowable<List<Meal>> Meals;
+    private final Flowable<List<Meal>> Meals;
+    private final Flowable<List<MealEntry>> mealEntrys;
+
     public LocalDataSource(Context context) {
         AppDataBase dataBase =AppDataBase.getInstance(context.getApplicationContext());
         mealDAO =dataBase.getMealsDAO();
-
+        mealEntryDao = dataBase.mealEntryDao();
         Meals = mealDAO.getAllMeals();
+        mealEntrys=mealEntryDao.getAllCalMeals();
 
     }
     public static LocalDataSource getInstance(Context context){
@@ -32,6 +38,14 @@ public class LocalDataSource implements ILocalDataSource{
         new Thread(){
             public void run() {
                 mealDAO.insertMeal(product);
+            }
+        }.start();
+    }
+    @Override
+    public void insertMealToCal(MealEntry product) {
+        new Thread(){
+            public void run() {
+                mealEntryDao.insert(product);
             }
         }.start();
     }
@@ -50,5 +64,15 @@ public class LocalDataSource implements ILocalDataSource{
     public Flowable<List<Meal>> getAllStoreMeals() {
         return Meals;
     }
+    public void deleteMealCal(MealEntry mealEntry) {
+        new Thread(){
+            public void run() {
+                mealEntryDao.delete(mealEntry);
+            }
+        }.start();
+    }
+    public Flowable<List<MealEntry>> getAllStoreCalMeals() {
+        return mealEntrys;
+    }
+    }
 
-}

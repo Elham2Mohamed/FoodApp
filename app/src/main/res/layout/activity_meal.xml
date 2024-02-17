@@ -4,50 +4,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context=".Meal.View.MealActivity">
 
-    <LinearLayout
-        android:id="@+id/linearLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="MissingConstraints">
-
-
-
-        <TextView
-            android:id="@+id/mealNameTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:paddingTop="14dp"
-            android:layout_marginStart="12dp"
-            android:text="Meal Name"
-            android:textSize="22sp"
-            android:textStyle="bold" />
-
-        <ImageButton
-            android:id="@+id/btnAddFavourite"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/text_background_selector"
-            android:padding="16dp"
-            app:srcCompat="@drawable/ic_favourite" />
-    </LinearLayout>
 
     <ScrollView
         android:id="@+id/scrollView2"
-        android:layout_width="418dp"
-        android:layout_height="680dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:clipToPadding="false"
         android:fillViewport="true"
         android:scrollbarStyle="outsideOverlay"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        app:layout_constraintTop_toBottomOf="parent"
         tools:context=".Meal.View.MealActivity">
 
 
@@ -56,12 +27,61 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <LinearLayout
+                android:id="@+id/linearLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+
+                tools:ignore="MissingConstraints">
+
+
+
+                <TextView
+                    android:id="@+id/mealNameTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingTop="14dp"
+                    android:textColor="@color/app_color"
+                    android:layout_marginStart="12dp"
+                    android:text="Meal Name"
+                    android:textSize="22sp"
+                    android:textStyle="bold" />
+                <ImageButton
+                    android:id="@+id/btnAddCalendar"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginStart="40dp"
+                    android:background="@color/white"
+                    android:clickable="true"
+                    android:layout_marginTop="16dp"
+                    android:padding="16dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/imgRafav"
+                    app:layout_constraintTop_toBottomOf="@+id/txtRaFoodName"
+                    app:layout_constraintVertical_bias="1.0"
+                    app:srcCompat="@drawable/ic_save"
+                    tools:ignore="RtlSymmetry" />
+                <ImageButton
+                    android:id="@+id/btnAddFavourite"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/text_background_selector"
+                    android:padding="16dp"
+                    app:srcCompat="@drawable/ic_favourite" />
+            </LinearLayout>
+
+
             <ImageView
                 android:id="@+id/pagerProductImage"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 android:scaleType="center"
                 android:src="@drawable/background" />
+
             <TextView
                 android:id="@+id/txt1"
                 android:layout_width="wrap_content"
@@ -70,6 +90,7 @@
                 android:layout_marginTop="16dp"
                 android:text="@string/description"
                 android:textSize="16sp"
+                android:textColor="@color/app_color"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
@@ -103,11 +124,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
+                android:textColor="@color/app_color"
                 android:layout_marginTop="28dp"
                 android:text="@string/ingredients"
                 android:textSize="16dp"
-                android:textStyle="bold"
-               />
+                android:textStyle="bold" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/ingredientsRecyclerView"
@@ -115,8 +136,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="16dp"
-                android:nestedScrollingEnabled="false"
-                />
+                android:nestedScrollingEnabled="false" />
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guideline"
@@ -131,14 +151,17 @@
                 android:layout_height="wrap_content"
                 app:barrierDirection="top"
                 app:constraint_referenced_ids="txtComment,txtDesciption" />
+
             <TextView
                 android:id="@+id/mealVideoTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:ellipsize="end"
                 android:layout_marginBottom="20dp"
+                android:ellipsize="end"
                 android:text="@string/take_a_look_to_learn"
                 android:textAlignment="center"
+                android:textColor="@color/app_color"
+                android:textStyle="bold"
                 android:textSize="20sp"
                 tools:ignore="MissingConstraints" />
 
@@ -151,11 +174,4 @@
 
         </LinearLayout>
     </ScrollView>
-
-    <androidx.constraintlayout.widget.Barrier
-        android:id="@+id/barrier3"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:barrierDirection="top"
-        app:constraint_referenced_ids="linearLayout" />
 </androidx.constraintlayout.widget.ConstraintLayout>

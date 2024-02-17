@@ -2,6 +2,7 @@ package com.example.foodapplication.Model;
 
 import androidx.lifecycle.LiveData;
 
+import com.example.foodapplication.db.MealEntry;
 import com.example.foodapplication.network.RemoteDBSource;
 import com.example.foodapplication.network.NetworkCallback;
 
@@ -36,9 +37,18 @@ public class Repository {
     public void addMeal(Meal meal){
         localDataSource.insertMeal(meal);
     }
+    public void addMealToCal(MealEntry meal){
+        localDataSource.insertMealToCal(meal);
+    }
 
     public void removeMeal(Meal meal){
         localDataSource.deleteMeal(meal);
+    }
+    public void removeMealFromCal(MealEntry meal){
+        localDataSource.deleteMealCal(meal);
+    }
+    public Flowable<List<MealEntry>> getCalMeals() {
+        return localDataSource.getAllStoreCalMeals();
     }
 
 

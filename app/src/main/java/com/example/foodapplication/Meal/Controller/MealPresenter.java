@@ -4,6 +4,7 @@ import com.example.foodapplication.Meal.View.IMealView;
 import com.example.foodapplication.Model.Categories;
 import com.example.foodapplication.Model.Meal;
 import com.example.foodapplication.Model.Repository;
+import com.example.foodapplication.db.MealEntry;
 import com.example.foodapplication.network.NetworkCallback;
 
 import java.util.List;
@@ -26,6 +27,10 @@ public class MealPresenter implements IMealPresenter, NetworkCallback {
     }
     public void addToFav(Meal meal) {
         repository.addMeal(meal);
+    }
+
+    public void addToCalender(MealEntry meal) {
+        repository.addMealToCal(meal);
     }
 
     @Override

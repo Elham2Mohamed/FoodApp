@@ -64,7 +64,7 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 
 
 public class FavouriteFragment extends Fragment implements OnMealClickListener, FavMealView {
-    LiveData<List<Meal>> meals;
+
     RecyclerView recyclerView;
     LinearLayoutManager layoutManager;
     FavoriteAdapter favoriteAdapter;

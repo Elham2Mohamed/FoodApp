@@ -29,7 +29,7 @@
                 android:layout_centerInParent="true"
                 android:scaleType="centerCrop"
                 android:src="@drawable/photo"
-                app:shapeAppearanceOverlay="@style/Circle_Image" />
+                 />
 
 
             <LinearLayout
@@ -71,7 +71,7 @@
 
 
                     <TextView
-                        android:id="@+id/txtCatMeal"
+                        android:id="@+id/txtDay"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
@@ -87,7 +87,7 @@
                         tools:ignore="HardcodedText,NestedWeights" />
 
                     <TextView
-                        android:id="@+id/txtAreaMeal"
+                        android:id="@+id/txtTime"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"

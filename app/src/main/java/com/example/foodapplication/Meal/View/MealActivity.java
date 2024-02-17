@@ -6,6 +6,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.provider.CalendarContract;
+import android.util.Log;
 import android.view.View;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
@@ -22,14 +24,20 @@ import com.example.foodapplication.Model.MealIngredients;
 import com.example.foodapplication.Model.MealUtils;
 import com.example.foodapplication.Model.Repository;
 import com.example.foodapplication.R;
-import com.example.foodapplication.home.view.HomeActivity;
+import com.example.foodapplication.db.MealEntry;
 import com.example.foodapplication.network.RemoteDBSource;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+
+import android.content.Intent;
+import java.util.Calendar;
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 public class MealActivity extends AppCompatActivity implements IMealView, OnFavClickListener {
     private TextView mealNameTextView, mealDescTextView;
     private RecyclerView ingredientsRecyclerView;
@@ -37,7 +45,8 @@ public class MealActivity extends AppCompatActivity implements IMealView, OnFavC
     private MealPresenter presenter;
     private WebView video;
     private ImageView image;
-    private ImageButton btnAddFav;
+
+    private ImageButton btnAddFav,btnAddToCalender;
 
     @SuppressLint({"MissingInflatedId", "SetJavaScriptEnabled"})
     @Override
@@ -54,12 +63,66 @@ public class MealActivity extends AppCompatActivity implements IMealView, OnFavC
         adapter = new MealIngredientsAdapter();
         ingredientsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         ingredientsRecyclerView.setAdapter(adapter);
+         btnAddToCalender=findViewById(R.id.btnAddCalendar);
 
         String mealName = getIntent().getStringExtra("mealName");
         Repository repository = Repository.getRepository(LocalDataSource.getInstance(this), RemoteDBSource.getInstance());
         presenter = new MealPresenter(this, repository, mealName);
         presenter.getMealDetails();
     }
+
+    public void addToCalendar(Meal meal) {
+        // Create a Calendar instance with the current date and time as the default values
+        Calendar calendar = Calendar.getInstance();
+        AtomicInteger year = new AtomicInteger(calendar.get(Calendar.YEAR));
+        AtomicInteger month = new AtomicInteger(calendar.get(Calendar.MONTH));
+        AtomicInteger day = new AtomicInteger(calendar.get(Calendar.DAY_OF_MONTH));
+        AtomicInteger hour = new AtomicInteger(calendar.get(Calendar.HOUR_OF_DAY));
+        AtomicInteger minute = new AtomicInteger(calendar.get(Calendar.MINUTE));
+
+        // Create a DatePickerDialog to allow the user to select the date
+        DatePickerDialog datePickerDialog = new DatePickerDialog(this, (datePicker, selectedYear, selectedMonth, selectedDay) -> {
+            // Update the selected date
+            year.set(selectedYear);
+            month.set(selectedMonth);
+            day.set(selectedDay);
+
+            // Create a TimePickerDialog to allow the user to select the time
+            TimePickerDialog timePickerDialog = new TimePickerDialog(this, (timePicker, selectedHour, selectedMinute) -> {
+                // Update the selected time
+                hour.set(selectedHour);
+                minute.set(selectedMinute);
+
+                // Create a Calendar instance with the selected date and time
+                Calendar selectedDateTime = Calendar.getInstance();
+                selectedDateTime.set(year.get(), month.get(), day.get(), hour.get(), minute.get());
+
+                //Room DataBase
+                MealActivity.this.onSaveMealClickListener(new MealEntry(meal.getIdMeal(),meal.getStrMealThumb(),meal.getStrMeal(),year.get()+" - "+(month.get()+1)+" - "+(day.get()), hour.get()+" : "+minute.get()));
+                // Convert the Calendar instance to milliseconds
+                long beginTimeMillis = selectedDateTime.getTimeInMillis();
+
+                // Create the calendar intent
+                Intent calendarIntent = new Intent(Intent.ACTION_INSERT)
+                        .setData(android.provider.CalendarContract.Events.CONTENT_URI)
+                        .putExtra(android.provider.CalendarContract.Events.TITLE, meal.getStrMeal()) // Set the meal name as the event title
+                        .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, beginTimeMillis)
+                        .putExtra(android.provider.CalendarContract.Events.ALL_DAY, false)
+                        .putExtra(android.provider.CalendarContract.Events.DESCRIPTION, meal.getStrInstructions()) // Add meal description if needed
+                        .putExtra(android.provider.CalendarContract.Events.EVENT_LOCATION, meal.getStrArea()); // Add meal location if needed
+
+                // Start the calendar intent
+                startActivity(calendarIntent);
+            }, hour.get(), minute.get(), false);
+
+            // Show the TimePickerDialog
+            timePickerDialog.show();
+        }, year.get(), month.get(), day.get());
+
+        // Show the DatePickerDialog
+        datePickerDialog.show();
+
+           }
 
     private String extractVideoId(String youtubeUrl) {
         String videoId = null;
@@ -94,6 +157,13 @@ public class MealActivity extends AppCompatActivity implements IMealView, OnFavC
                 MealActivity.this.onFavMealClickListener(meal);
             }
         });
+        btnAddToCalender.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addToCalendar( meal) ;
+
+            }
+        });
     }
 
     @SuppressLint("SetJavaScriptEnabled")
@@ -126,5 +196,10 @@ public class MealActivity extends AppCompatActivity implements IMealView, OnFavC
     @Override
     public void onFavMealClickListener(Meal meal) {
         presenter.addToFav(meal);
+    }
+    @SuppressLint("NotifyDataSetChanged")
+    @Override
+    public void onSaveMealClickListener(MealEntry meal) {
+        presenter.addToCalender(meal);
     }
 }

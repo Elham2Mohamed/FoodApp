@@ -22,7 +22,7 @@
         tools:layout="@layout/fragment_filter" />
     <fragment
         android:id="@+id/weeklyFragment"
-        android:name="com.example.foodapplication.WeeklyFragment"
+        android:name="com.example.foodapplication.weeklyMeal.view.WeeklyFragment"
         android:label="fragment_weekly"
         tools:layout="@layout/fragment_weekly" />
     <fragment

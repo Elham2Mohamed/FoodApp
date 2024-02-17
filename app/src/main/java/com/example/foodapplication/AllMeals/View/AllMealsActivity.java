@@ -28,7 +28,6 @@ import java.util.List;
 public class AllMealsActivity extends AppCompatActivity implements IAllMealsView ,OnFavMealClickListener{
     RecyclerView recyclerView;
      TextView type;
-     ImageButton btnBack;
     GridLayoutManager layoutManager;
     MealsAdapter mealsAdapter;
 
@@ -57,14 +56,6 @@ public class AllMealsActivity extends AppCompatActivity implements IAllMealsView
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(mealsAdapter);
         mealsPresenter.getMealsByCategories();
-        btnBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent=new Intent(AllMealsActivity.this, HomeActivity.class);
-                startActivity(intent);
-                finish();
-            }
-        });
 
     }
 
