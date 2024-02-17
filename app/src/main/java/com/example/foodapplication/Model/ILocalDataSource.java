@@ -15,4 +15,6 @@ public interface ILocalDataSource {
     Flowable<List<Meal>> getAllStoreMeals();
     void deleteMealCal(MealEntry mealEntry);
     Flowable<List<MealEntry>> getAllStoreCalMeals();
+    public void deleteAllCalMeals();
+    public void deleteAllFavMeals();
 }

@@ -13,6 +13,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.content.Intent;
 import com.example.foodapplication.AllMeals.controller.AllMealsPresenter;
+import com.example.foodapplication.LoginActivity;
+import com.example.foodapplication.MainActivity2;
 import com.example.foodapplication.Meal.View.MealActivity;
 import com.example.foodapplication.Model.LocalDataSource;
 import com.example.foodapplication.Model.Meal;
@@ -77,8 +79,31 @@ public class AllMealsActivity extends AppCompatActivity implements IAllMealsView
     @SuppressLint("NotifyDataSetChanged")
     @Override
     public void onFavMealClickListener(Meal meal) {
-        mealsPresenter.addToFav(meal);
-        mealsAdapter.notifyDataSetChanged();
+
+        if (!MainActivity2.sharedPreferences.contains("email") || !MainActivity2.sharedPreferences.contains("password")) {
+
+            showCreateAccountDialog();
+
+        } else {
+
+            mealsPresenter.addToFav(meal);
+            mealsAdapter.notifyDataSetChanged();
+        }
+
+
+    }
+
+    private void showCreateAccountDialog () {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Account Required");
+        builder.setMessage("You must create an account before accessing this feature.");
+        builder.setPositiveButton("OK", (dialogInterface, i) -> {
+            // Redirect user to login activity
+            startActivity(new Intent(this, LoginActivity.class));
+            //finish(); // Finish MainActivity so user cannot return to it without logging in
+        });
+        builder.setNegativeButton("Cancel", null);
+        builder.show();
 
     }
 

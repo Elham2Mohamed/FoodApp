@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -27,6 +28,8 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.foodapplication.AllMeals.View.AllMealsActivity;
+import com.example.foodapplication.MainActivity2;
+import com.example.foodapplication.db.MealEntry;
 import com.example.foodapplication.filterFragment.view.FilterFragment;
 import com.example.foodapplication.LoginActivity;
 import com.example.foodapplication.Meal.View.MealActivity;
@@ -50,16 +53,25 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.squareup.picasso.Picasso;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.widget.Toast;
+
+import org.reactivestreams.Subscription;
+
 import java.util.List;
+
+import io.reactivex.rxjava3.core.FlowableSubscriber;
 
 public class HomeFragment extends Fragment implements IAllCategoriestView, IRandomMealsView, OnCategoriesClickListener {
 
     RecyclerView recyclerView;
     ImageView imageView;
     GoogleSignInClient gClient;
+    Repository repository;
     GoogleSignInOptions gOptions;
     private static final String PREFERENCES = "PREFERENCES";
     private static final String EMAIL = "email";
@@ -67,10 +79,9 @@ public class HomeFragment extends Fragment implements IAllCategoriestView, IRand
     TextView name,mealCategories;
     GridLayoutManager layoutManager;
     CategoriesAdapter categoriesAdapter;
-    ImageButton btnFAV;
+    ImageButton btnFAV,btnLogout;
     HomePresenter allpresenter;
     CardView randomMeal;
-    SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
     View view;
     String email,password;
@@ -95,8 +106,28 @@ public class HomeFragment extends Fragment implements IAllCategoriestView, IRand
         super.onViewCreated(view, savedInstanceState);
        this.view=view;
 
+        gOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
+        gClient = GoogleSignIn.getClient(getActivity(), gOptions);
+
+        repository= Repository.getRepository(LocalDataSource.getInstance(getContext()), RemoteDBSource.getInstance());
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences(HomeFragment.PREFERENCES, Context.MODE_PRIVATE);
+
+        editor = sharedPreferences.edit();
         init();
 
+        btnLogout=view.findViewById(R.id.btnlogout);
+        btnLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!MainActivity2.sharedPreferences.contains("email") || !MainActivity2.sharedPreferences.contains("password")) {
+
+                    showCreateAccountDialog();
+                } else {
+                    showLogoutConfirmationDialog();
+
+                }
+            }
+        });
         recyclerView.setHasFixedSize(true);
 
         layoutManager = new GridLayoutManager(getContext(),2,RecyclerView.VERTICAL,false);
@@ -119,19 +150,7 @@ public class HomeFragment extends Fragment implements IAllCategoriestView, IRand
         btnFAV=view.findViewById(R.id.imgRafav);
         randomMeal=view.findViewById(R.id.ranMeal);
     }
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if(item.getItemId()==android.R.id.home){
-            if (sharedPreferences.contains("email") && sharedPreferences.contains("password")) {
-                // User has email and password stored, show logout confirmation dialog
-                showLogoutConfirmationDialog();
-            } else {
-                // User does not have email and password stored, show dialog
-                showCreateAccountDialog();
-            }
-        }
 
-        return super.onOptionsItemSelected(item);
-    }
     @SuppressLint("NotifyDataSetChanged")
     @Override
     public void showData(List<Categories> categoriesList) {
@@ -147,7 +166,8 @@ public class HomeFragment extends Fragment implements IAllCategoriestView, IRand
         btnFAV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (email==null && password==null) {
+                if (!MainActivity2.sharedPreferences.contains("email") || !MainActivity2.sharedPreferences.contains("password")) {
+
                     showCreateAccountDialog();
 
                 } else {
@@ -188,6 +208,7 @@ public class HomeFragment extends Fragment implements IAllCategoriestView, IRand
     @SuppressLint("NotifyDataSetChanged")
     @Override
     public void onFavMealClickListener(Meal meal) {
+
         allpresenter.addToFav(meal);
     }
     @Override
@@ -219,11 +240,64 @@ public class HomeFragment extends Fragment implements IAllCategoriestView, IRand
             // Clear user data from SharedPreferences
             editor.clear();
             editor.apply();
+            deleteAllFavMealsFromRoom();
+            deleteAllCalMealsFromRoom();
             // Sign out from Google if needed
             gClient.signOut().addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
                     // Redirect user to login activity
+                    repository.getMeals().subscribe(new FlowableSubscriber<List<Meal>>() {
+                        @Override
+                        public void onSubscribe(@NonNull Subscription s) {
+                            // Implement onSubscribe if needed
+                            s.request(Long.MAX_VALUE); // Request all items immediately
+                        }
+
+                        @Override
+                        public void onNext(List<Meal> meals) {
+                            // Handle the list of meals here
+                            uploadFAVMealsToFirestore(meals);
+                        }
+
+                        @Override
+                        public void onError(Throwable t) {
+                            // Handle error if needed
+                            Log.e("MainActivity2", "Error fetching meals: " + t.getMessage(), t);
+                        }
+
+                        @Override
+                        public void onComplete() {
+                            // Handle onComplete if needed
+                            Log.d("MainActivity2", "Meal fetching completed");
+                        }
+                    });
+
+                    repository.getCalMeals().subscribe(new FlowableSubscriber<List<MealEntry>>() {
+                        @Override
+                        public void onSubscribe(@NonNull Subscription s) {
+                            // Implement onSubscribe if needed
+                            s.request(Long.MAX_VALUE); // Request all items immediately
+                        }
+
+                        @Override
+                        public void onNext(List<MealEntry> mealEntries) {
+                            // Handle the list of meal entries here
+                            uploadCalMealsToFirestore(mealEntries);
+                        }
+
+                        @Override
+                        public void onError(Throwable t) {
+                            // Handle error if needed
+                            Log.e("MainActivity2", "Error fetching meal entries: " + t.getMessage(), t);
+                        }
+
+                        @Override
+                        public void onComplete() {
+                            // Handle onComplete if needed
+                            Log.d("MainActivity2", "Meal entry fetching completed");
+                        }
+                    });
                     startActivity(new Intent(getContext(), LoginActivity.class));
                    // finish(); // Finish MainActivity so user cannot return to it without logging in
                 }
@@ -231,5 +305,62 @@ public class HomeFragment extends Fragment implements IAllCategoriestView, IRand
         });
         builder.setNegativeButton("No", null);
         builder.show();
+    }
+
+    private int successfulUploads = 0;
+    private int totalMealsToUpload = 0;
+
+    // Method to check if all meals are uploaded to Firestore
+    private boolean allMealsUploaded() {
+        // Increment the successful uploads counter
+        successfulUploads++;
+
+        // Check if the number of successful uploads equals the total number of meals to upload
+        if (successfulUploads == totalMealsToUpload) {
+            // Reset the counters
+            successfulUploads = 0;
+            totalMealsToUpload = 0;
+            return true; // All meals are uploaded
+        } else {
+            return false; // Not all meals are uploaded yet
+        }
+    }
+
+    private void  deleteAllFavMealsFromRoom(){repository.deleteAllFavMeals();}
+    private void  deleteAllCalMealsFromRoom(){repository.deleteAllCalMeals();}
+    private void uploadFAVMealsToFirestore(List<Meal> meals) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        CollectionReference favMealsRef = db.collection("FAVMeals");
+
+        for (Meal meal : meals) {
+            favMealsRef.add(meal)
+                    .addOnSuccessListener(documentReference -> {
+                        Log.d("Firestore", "Meal added with ID: " + documentReference.getId());
+                        allMealsUploaded();
+                        deleteAllFavMealsFromRoom();
+                    })
+                    .addOnFailureListener(e -> {
+                        Log.e("Firestore", "Error adding meal", e);
+                        Toast.makeText(getContext(), "Failed to upload meal: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    });
+        }
+    }
+
+    private void uploadCalMealsToFirestore(List<MealEntry> meals) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        CollectionReference calMealsRef = db.collection("CALMeals");
+
+        for (MealEntry meal : meals) {
+            calMealsRef.add(meal)
+                    .addOnSuccessListener(documentReference -> {
+                        Log.d("Firestore", "Meal added with ID: " + documentReference.getId());
+                        allMealsUploaded();
+                        deleteAllCalMealsFromRoom();
+                    })
+                    .addOnFailureListener(e -> {
+                        Log.e("Firestore", "Error adding meal", e);
+                        Toast.makeText(getContext(), "Failed to upload meal: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    });
+        }
     }
 }

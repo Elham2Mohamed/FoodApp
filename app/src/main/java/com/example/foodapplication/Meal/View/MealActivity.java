@@ -1,10 +1,13 @@
 package com.example.foodapplication.Meal.View;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.provider.CalendarContract;
 import android.util.Log;
@@ -17,6 +20,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.foodapplication.LoginActivity;
+import com.example.foodapplication.MainActivity2;
 import com.example.foodapplication.Meal.Controller.MealPresenter;
 import com.example.foodapplication.Model.LocalDataSource;
 import com.example.foodapplication.Model.Meal;
@@ -25,6 +30,7 @@ import com.example.foodapplication.Model.MealUtils;
 import com.example.foodapplication.Model.Repository;
 import com.example.foodapplication.R;
 import com.example.foodapplication.db.MealEntry;
+import com.example.foodapplication.homeFragment.view.HomeFragment;
 import com.example.foodapplication.network.RemoteDBSource;
 import com.squareup.picasso.Picasso;
 
@@ -98,7 +104,7 @@ public class MealActivity extends AppCompatActivity implements IMealView, OnFavC
                 selectedDateTime.set(year.get(), month.get(), day.get(), hour.get(), minute.get());
 
                 //Room DataBase
-                MealActivity.this.onSaveMealClickListener(new MealEntry(meal.getIdMeal(),meal.getStrMealThumb(),meal.getStrMeal(),year.get()+" - "+(month.get()+1)+" - "+(day.get()), hour.get()+" : "+minute.get()));
+                MealActivity.this.onSaveMealClickListener(new MealEntry(meal.getStrMealThumb(),meal.getStrMeal(),year.get()+" - "+(month.get()+1)+" - "+(day.get()), hour.get()+" : "+minute.get()));
                 // Convert the Calendar instance to milliseconds
                 long beginTimeMillis = selectedDateTime.getTimeInMillis();
 
@@ -152,15 +158,32 @@ public class MealActivity extends AppCompatActivity implements IMealView, OnFavC
         }
 
         btnAddFav.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
-                MealActivity.this.onFavMealClickListener(meal);
+                if (!MainActivity2.sharedPreferences.contains("email") || !MainActivity2.sharedPreferences.contains("password")) {
+
+                    showCreateAccountDialog();
+
+                } else {
+
+                    MealActivity.this.onFavMealClickListener(meal);
+                }
+
             }
         });
         btnAddToCalender.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                addToCalendar( meal) ;
+                if (!MainActivity2.sharedPreferences.contains("email") || !MainActivity2.sharedPreferences.contains("password")) {
+
+                    showCreateAccountDialog();
+
+                } else {
+
+                    addToCalendar( meal) ;
+                }
+
 
             }
         });
@@ -201,5 +224,19 @@ public class MealActivity extends AppCompatActivity implements IMealView, OnFavC
     @Override
     public void onSaveMealClickListener(MealEntry meal) {
         presenter.addToCalender(meal);
+    }
+
+    private void showCreateAccountDialog () {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Account Required");
+        builder.setMessage("You must create an account before accessing this feature.");
+        builder.setPositiveButton("OK", (dialogInterface, i) -> {
+            // Redirect user to login activity
+            startActivity(new Intent(this, LoginActivity.class));
+            //finish(); // Finish MainActivity so user cannot return to it without logging in
+        });
+        builder.setNegativeButton("Cancel", null);
+        builder.show();
+
     }
 }

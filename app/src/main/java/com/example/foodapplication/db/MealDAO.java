@@ -20,7 +20,8 @@ public interface MealDAO {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     void insertMeal(Meal product);
-
+    @Query("DELETE FROM meals")
+    void deleteAllMeals();
     @Delete
     void deleteMeal(Meal product);
 }

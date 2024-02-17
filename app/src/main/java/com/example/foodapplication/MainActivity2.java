@@ -1,13 +1,13 @@
 package com.example.foodapplication;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -15,26 +15,48 @@ import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.Menu;
-import com.example.foodapplication.home.view.HomeActivity;
+
+import com.example.foodapplication.Model.LocalDataSource;
+import com.example.foodapplication.Model.Meal;
+import com.example.foodapplication.Model.Repository;
+import com.example.foodapplication.db.MealEntry;
+import com.example.foodapplication.network.RemoteDBSource;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+
 import android.content.BroadcastReceiver;
+import android.view.View;
+import android.widget.Toast;
+
+import org.reactivestreams.Subscription;
+
+import java.util.List;
+
+import io.reactivex.rxjava3.core.FlowableSubscriber;
 
 public class MainActivity2 extends AppCompatActivity {
     BottomNavigationView navigationView;
     GoogleSignInClient gClient;
     GoogleSignInOptions gOptions;
+    private FirebaseAuth mAuth;
+    private FirebaseFirestore mFirestore;
+    static  int x=1,y=1;
     private static final String PREFERENCES = "PREFERENCES";
     private static final String EMAIL = "email";
     private static final String PASSWORD = "password";
-    SharedPreferences sharedPreferences;
-    SharedPreferences.Editor editor;
+   public static SharedPreferences sharedPreferences;
+   SharedPreferences.Editor editor;
+
 
     private BroadcastReceiver networkChangeReceiver = new BroadcastReceiver() {
         @Override
@@ -44,11 +66,13 @@ public class MainActivity2 extends AppCompatActivity {
     };
 
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
         checkInternetConnection();
+
 
         sharedPreferences = getSharedPreferences(MainActivity2.PREFERENCES, Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
@@ -64,13 +88,11 @@ public class MainActivity2 extends AppCompatActivity {
         gOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
         gClient = GoogleSignIn.getClient(this, gOptions);
 
+        mAuth = FirebaseAuth.getInstance();
+        mFirestore = FirebaseFirestore.getInstance();
 
 
-        ActionBar actionBar=getSupportActionBar();
-        assert actionBar != null;
-        actionBar.setHomeAsUpIndicator(R.drawable.logout);
-        actionBar.setDisplayShowHomeEnabled(true);
-        actionBar.setDisplayHomeAsUpEnabled(true);
+
 
 
         navigationView=findViewById(R.id.bottom_navigation);
@@ -144,19 +166,6 @@ public class MainActivity2 extends AppCompatActivity {
     }
 
 
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if(item.getItemId()==android.R.id.home){
-            if (sharedPreferences.contains("email") && sharedPreferences.contains("password")) {
-                showLogoutConfirmationDialog();
-            } else {
-
-                showCreateAccountDialog();
-            }
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
     private  void showCreateAccountDialog () {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Account Required");
@@ -180,15 +189,23 @@ public class MainActivity2 extends AppCompatActivity {
         builder.setTitle("Logout Confirmation");
         builder.setMessage("Are you sure you want to logout?");
         builder.setPositiveButton("Yes", (dialogInterface, i) -> {
+
             editor.clear();
             editor.apply();
             gClient.signOut().addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
+
+
                     startActivity(new Intent(MainActivity2.this, LoginActivity.class));
                     finish();  }
             });
         });
         builder.setNegativeButton("No", null);
         builder.show();
-    }}
+    }
+    // Define variables to track successful uploads
+
+}
+
+

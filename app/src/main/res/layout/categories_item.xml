@@ -10,7 +10,7 @@
 
     <LinearLayout
         android:layout_height="wrap_content"
-        android:layout_width="150dp"
+        android:layout_width="170dp"
         app:layout_constraintWidth_percent="0.5"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

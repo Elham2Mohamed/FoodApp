@@ -37,7 +37,7 @@
 
                 android:id="@+id/txtFoodName"
                 android:layout_width="wrap_content"
-                android:layout_height="51dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="80dp"
                 android:ellipsize="end"
                 android:gravity="center"
@@ -46,7 +46,7 @@
                 android:padding="10dp"
                 android:text=" product name of"
                 android:textColor="#555555"
-                android:textSize="22sp"
+                android:textSize="18sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.512"
@@ -58,7 +58,7 @@
                 android:id="@+id/imgfav"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
+                android:layout_marginStart="10dp"
                 android:layout_weight="1"
                 android:background="@drawable/text_background_selector"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -66,7 +66,7 @@
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/txtFoodName"
                 app:layout_constraintTop_toBottomOf="@+id/txtFoodName"
-                app:layout_constraintVertical_bias="0.333"
+                app:layout_constraintVertical_bias="0.339"
                 app:srcCompat="@drawable/ic_favourite" />
 
 

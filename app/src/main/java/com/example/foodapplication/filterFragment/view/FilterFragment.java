@@ -16,6 +16,8 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.foodapplication.LoginActivity;
+import com.example.foodapplication.MainActivity2;
 import com.example.foodapplication.Meal.View.MealActivity;
 import com.example.foodapplication.Model.LocalDataSource;
 import com.example.foodapplication.Model.Meal;
@@ -25,6 +27,7 @@ import com.example.foodapplication.filterFragment.controller.FilterPresenter;
 import com.example.foodapplication.filterFragment.view.FilterFragment;
 import com.example.foodapplication.filterFragment.view.FilterTypeAdapter;
 import com.example.foodapplication.filterFragment.view.MealsAdapter;
+import com.example.foodapplication.homeFragment.view.HomeFragment;
 import com.example.foodapplication.network.RemoteDBSource;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.chip.Chip;
@@ -156,7 +159,28 @@ public class FilterFragment extends Fragment implements IFilterMealsView, OnFilt
     @SuppressLint("NotifyDataSetChanged")
     @Override
     public void onFavMealClickListener(Meal meal) {
-        mealsPresenter.addToFav(meal);
+        if (!MainActivity2.sharedPreferences.contains("email") || !MainActivity2.sharedPreferences.contains("password")) {
+
+            showCreateAccountDialog();
+
+        } else {
+
+            mealsPresenter.addToFav(meal);
+        }
+
+    }
+    private void showCreateAccountDialog () {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle("Account Required");
+        builder.setMessage("You must create an account before accessing this feature.");
+        builder.setPositiveButton("OK", (dialogInterface, i) -> {
+            // Redirect user to login activity
+            startActivity(new Intent(getContext(), LoginActivity.class));
+            //finish(); // Finish MainActivity so user cannot return to it without logging in
+        });
+        builder.setNegativeButton("Cancel", null);
+        builder.show();
+
     }
     @Override
     public void onMealDetailsClickListener(String name) {

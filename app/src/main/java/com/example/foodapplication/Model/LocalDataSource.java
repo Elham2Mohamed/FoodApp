@@ -49,8 +49,24 @@ public class LocalDataSource implements ILocalDataSource{
             }
         }.start();
     }
-
-
+    @Override
+    public void deleteAllFavMeals() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                mealDAO.deleteAllMeals();
+            }
+        }).start();
+    }
+@Override
+    public void deleteAllCalMeals() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                mealEntryDao.deleteAllMeals();
+            }
+        }).start();
+    }
     @Override
     public void deleteMeal(Meal product) {
         new Thread(){

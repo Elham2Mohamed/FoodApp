@@ -19,7 +19,8 @@ public interface MealEntryDao {
     Flowable<List<MealEntry>> getAllCalMeals();
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     void insert(MealEntry mealEntry);
-
+    @Query("DELETE FROM meal_entries")
+    void deleteAllMeals();
     @Update
     void update(MealEntry mealEntry);
 

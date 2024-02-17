@@ -7,6 +7,8 @@ import com.example.foodapplication.network.RemoteDBSource;
 import com.example.foodapplication.network.NetworkCallback;
 
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import io.reactivex.rxjava3.core.Flowable;
 
@@ -51,6 +53,17 @@ public class Repository {
         return localDataSource.getAllStoreCalMeals();
     }
 
+    public void deleteAllFavMeals() {
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        executor.execute(() -> localDataSource.deleteAllFavMeals());
+        executor.shutdown();
+    }
+
+    public void deleteAllCalMeals() {
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        executor.execute(() -> localDataSource.deleteAllCalMeals());
+        executor.shutdown();
+    }
 
     public void getAllCat(NetworkCallback networkCallback){
         remoteDBSource.makeNetworkCallCategories(networkCallback);
