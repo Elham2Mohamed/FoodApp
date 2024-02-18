@@ -12,6 +12,9 @@ public class Meal {
         this.strMealThumb = strMealThumb;
     }
 
+    public Meal() {
+    }
+
     @PrimaryKey
     @NonNull
     private String idMeal;

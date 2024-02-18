@@ -246,60 +246,10 @@ public class HomeFragment extends Fragment implements IAllCategoriestView, IRand
             gClient.signOut().addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
-                    // Redirect user to login activity
-                    repository.getMeals().subscribe(new FlowableSubscriber<List<Meal>>() {
-                        @Override
-                        public void onSubscribe(@NonNull Subscription s) {
-                            // Implement onSubscribe if needed
-                            s.request(Long.MAX_VALUE); // Request all items immediately
-                        }
-
-                        @Override
-                        public void onNext(List<Meal> meals) {
-                            // Handle the list of meals here
-                            uploadFAVMealsToFirestore(meals);
-                        }
-
-                        @Override
-                        public void onError(Throwable t) {
-                            // Handle error if needed
-                            Log.e("MainActivity2", "Error fetching meals: " + t.getMessage(), t);
-                        }
-
-                        @Override
-                        public void onComplete() {
-                            // Handle onComplete if needed
-                            Log.d("MainActivity2", "Meal fetching completed");
-                        }
-                    });
-
-                    repository.getCalMeals().subscribe(new FlowableSubscriber<List<MealEntry>>() {
-                        @Override
-                        public void onSubscribe(@NonNull Subscription s) {
-                            // Implement onSubscribe if needed
-                            s.request(Long.MAX_VALUE); // Request all items immediately
-                        }
-
-                        @Override
-                        public void onNext(List<MealEntry> mealEntries) {
-                            // Handle the list of meal entries here
-                            uploadCalMealsToFirestore(mealEntries);
-                        }
-
-                        @Override
-                        public void onError(Throwable t) {
-                            // Handle error if needed
-                            Log.e("MainActivity2", "Error fetching meal entries: " + t.getMessage(), t);
-                        }
-
-                        @Override
-                        public void onComplete() {
-                            // Handle onComplete if needed
-                            Log.d("MainActivity2", "Meal entry fetching completed");
-                        }
-                    });
+                    deleteAllFavMealsFromRoom();
+                    deleteAllCalMealsFromRoom();
                     startActivity(new Intent(getContext(), LoginActivity.class));
-                    // finish(); // Finish MainActivity so user cannot return to it without logging in
+
                 }
             });
         });
@@ -307,68 +257,9 @@ public class HomeFragment extends Fragment implements IAllCategoriestView, IRand
         builder.show();
     }
 
-    private int successfulUploads = 0;
-    private int totalMealsToUpload = 0;
-
-    // Method to check if all meals are uploaded to Firestore
-
     private void  deleteAllFavMealsFromRoom(){repository.deleteAllFavMeals();}
     private void  deleteAllCalMealsFromRoom(){repository.deleteAllCalMeals();}
-    private void uploadFAVMealsToFirestore(List<Meal> meals) {
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        CollectionReference favMealsRef = db.collection("FAVMeals");
 
-        for (Meal meal : meals) {
-            Map<String, Object> mealMap = new HashMap<>();
-            mealMap.put("idMeal", meal.getIdMeal());
-            mealMap.put("strMealThumb", meal.getStrMealThumb());
-            mealMap.put("strMeal", meal.getStrMeal());
-            // Add other fields as needed
-
-            favMealsRef.add(mealMap)
-                    .addOnSuccessListener(documentReference -> {
-                        Log.d("Firestore", "Meal added with ID: " + documentReference.getId());
-                        deleteAllFavMealsFromRoom(); // Delete local data only after successful upload
-                    })
-                    .addOnFailureListener(e -> {
-                        Log.e("Firestore", "Error adding meal", e);
-                        Toast.makeText(getContext(), "Failed to upload meal: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                        // Handle error here, e.g., retry upload or inform user
-                    });
-        }
-    }
-
-    private void uploadCalMealsToFirestore(List<MealEntry> meals) {
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        CollectionReference calMealsRef = db.collection("CALMeals");
-
-        for (MealEntry meal : meals) {
-            Map<String, Object> mealEntryMap = new HashMap<>();
-            mealEntryMap.put("id", meal.getId());
-            mealEntryMap.put("image", meal.getImage());
-            mealEntryMap.put("name", meal.getName());
-            mealEntryMap.put("date", meal.getDate());
-            mealEntryMap.put("time", meal.getTime());
-            // Add other fields as needed
-
-            calMealsRef.add(mealEntryMap)
-                    .addOnSuccessListener(documentReference -> {
-                        Log.d("Firestore", "Meal entry added with ID: " + documentReference.getId());
-
-                        deleteAllCalMealsFromRoom(); // Delete local data only after successful upload
-                    })
-                    .addOnFailureListener(e -> {
-                        Log.e("Firestore", "Error adding meal entry", e);
-                        Toast.makeText(getContext(), "Failed to upload meal entry: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                        // Handle error here, e.g., retry upload or inform user
-                    });
-        }
-    }
-
-    private boolean allMealsUploaded() {
-        successfulUploads++;
-        return successfulUploads == totalMealsToUpload;
-    }
 
 
 }

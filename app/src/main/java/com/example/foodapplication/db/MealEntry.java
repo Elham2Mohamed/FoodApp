@@ -6,6 +6,8 @@ import androidx.room.PrimaryKey;
 
 @Entity(tableName = "meal_entries")
 public class MealEntry {
+    public MealEntry() {
+    }
 
     @PrimaryKey(autoGenerate = true)
     private int id;

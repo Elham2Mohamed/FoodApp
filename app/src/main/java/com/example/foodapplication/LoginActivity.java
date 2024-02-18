@@ -16,6 +16,7 @@ import android.content.Intent;
 import android.text.TextUtils;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
@@ -25,7 +26,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.developer.gbuttons.GoogleSignInButton;
+import com.example.foodapplication.Model.LocalDataSource;
+import com.example.foodapplication.Model.Meal;
+import com.example.foodapplication.Model.Repository;
+import com.example.foodapplication.db.MealEntry;
 import com.example.foodapplication.home.view.HomeActivity;
+import com.example.foodapplication.network.RemoteDBSource;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -37,6 +43,12 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class LoginActivity extends AppCompatActivity {
@@ -44,6 +56,8 @@ public class LoginActivity extends AppCompatActivity {
     private EditText loginEmail, loginPassword;
     private TextView signupRedirectText,btnSKIP;
     private Button loginButton;
+    private Repository repository;
+    private FirebaseFirestore db;
     private FirebaseAuth auth;
     TextView forgotPassword;
     GoogleSignInButton googleBtn;
@@ -64,6 +78,8 @@ public class LoginActivity extends AppCompatActivity {
         forgotPassword = findViewById(R.id.forgot_password);
         googleBtn = findViewById(R.id.googleBtn);
        toggleButton = findViewById(R.id.passwordVisibilityToggle);
+         repository = Repository.getRepository(LocalDataSource.getInstance(this), RemoteDBSource.getInstance());
+
 
         toggleButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,6 +105,7 @@ public class LoginActivity extends AppCompatActivity {
         btnSKIP.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 startActivity(new Intent(LoginActivity.this, MainActivity2.class));
             }
         });
@@ -105,6 +122,7 @@ public class LoginActivity extends AppCompatActivity {
                                 .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                                     @Override
                                     public void onSuccess(AuthResult authResult) {
+
                                         Toast.makeText(LoginActivity.this, "Login Successful", Toast.LENGTH_SHORT).show();
                                         Intent intent=new Intent(LoginActivity.this, MainActivity2.class);
                                         intent.putExtra("email",email);
@@ -186,7 +204,8 @@ public class LoginActivity extends AppCompatActivity {
 
         GoogleSignInAccount gAccount = GoogleSignIn.getLastSignedInAccount(this);
         if (gAccount != null){
-            finish();
+
+          finish();
             Intent intent = new Intent(LoginActivity.this, MainActivity2.class);
             startActivity(intent);
         }
@@ -198,6 +217,7 @@ public class LoginActivity extends AppCompatActivity {
                             Intent data = result.getData();
                             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
                             try {
+
                                 task.getResult(ApiException.class);
                                 finish();
                                 Intent intent = new Intent(LoginActivity.this, MainActivity2.class);
@@ -216,4 +236,57 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
+
+//    public void readAllData() {
+//        db = FirebaseFirestore.getInstance();
+//        // Inside your login method or wherever you handle user login
+//        db.collection("FAVMeals")
+//                .get()
+//                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+//                        if (task.isSuccessful()) {
+//                            List<Meal> favMeals = new ArrayList<>();
+//                            for (QueryDocumentSnapshot document : task.getResult()) {
+//                                // Convert Firestore document to Meal object
+//                                favMeals.add(new Meal(document.toObject(Meal.class).getIdMeal(),document.toObject(Meal.class).getStrMeal(),document.toObject(Meal.class).getStrMealThumb()));
+//                            }
+//                            // Upload FAVMeals to Room database
+//                            uploadFAVMealsToRoom(favMeals);
+//                        } else {
+//                            Log.d("TAG", "Error getting FAVMeals: ", task.getException());
+//                        }
+//                    }
+//                });
+//
+//        db.collection("CALMeals")
+//                .get()
+//                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+//                        if (task.isSuccessful()) {
+//                            List<MealEntry> calMeals = new ArrayList<>();
+//                            for (QueryDocumentSnapshot document : task.getResult()) {
+//                                // Convert Firestore document to MealEntry object
+//                                calMeals.add(new MealEntry(document.toObject(MealEntry.class).getImage(),document.toObject(MealEntry.class).getName(),document.toObject(MealEntry.class).getDate(),document.toObject(MealEntry.class).getTime()));
+//                            }
+//                            // Upload CALMeals to Room database
+//                            uploadCalMealsToRoom(calMeals);
+//                        } else {
+//                            Log.d("TAG", "Error getting CALMeals: ", task.getException());
+//                        }
+//                    }
+//                });
+//
+//    }
+
+    private void uploadFAVMealsToRoom(List<Meal> meals) {
+     repository.addAllMealToFAV(meals);
+    }
+
+
+    private void uploadCalMealsToRoom(List<MealEntry> meals) {
+        repository.addAllMealToCal(meals);
+    }
+
 }

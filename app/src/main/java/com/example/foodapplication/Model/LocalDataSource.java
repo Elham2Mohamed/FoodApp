@@ -49,6 +49,21 @@ public class LocalDataSource implements ILocalDataSource{
             }
         }.start();
     }
+    public void insertAllMealToCal(List<MealEntry> product) {
+        new Thread(){
+            public void run() {
+                mealEntryDao.insertAll(product);
+            }
+        }.start();
+    }
+    public void insertAllMealToFAV(List<Meal> product) {
+        new Thread(){
+            public void run() {
+                mealDAO.insertAll(product);
+            }
+        }.start();
+    }
+
     @Override
     public void deleteAllFavMeals() {
         new Thread(new Runnable() {
