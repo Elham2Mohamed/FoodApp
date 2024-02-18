@@ -2,8 +2,8 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.FoodApplication" parent="Theme.Material3.DayNight">
         <item name="colorPrimary">@color/app_color</item>
-        <item name="colorPrimaryDark">@color/app_color2</item>
-        <item name="colorAccent">@color/app_color3</item>
+        <item name="colorPrimaryDark">#FFD9B7</item>
+        <item name="colorAccent">@color/app_color</item>
         <!-- Hide the action bar -->
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>

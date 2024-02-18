@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,6 +17,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.airbnb.lottie.LottieImageAsset;
 import com.example.foodapplication.LoginActivity;
 import com.example.foodapplication.MainActivity2;
 import com.example.foodapplication.Meal.View.MealActivity;
@@ -43,6 +45,7 @@ public class FilterFragment extends Fragment implements IFilterMealsView, OnFilt
     static int type;
     View view;
     boolean isShow=false;
+    ImageView fullScreenImage;
     FilterPresenter mealsPresenter;
     ChipGroup chipGroup;
 
@@ -66,7 +69,7 @@ public class FilterFragment extends Fragment implements IFilterMealsView, OnFilt
          this.view=view;
         chipGroup=view.findViewById(R.id.chipGroup);
         setUpFilterChips();
-
+        fullScreenImage = view.findViewById(R.id.fullScreenImage);
         recyclerView2 =view.findViewById(R.id.recyclerViewFilterMeals);
         recyclerView =view.findViewById(R.id.recyclerViewFilter);
         recyclerView.setHasFixedSize(true);
@@ -118,8 +121,16 @@ public class FilterFragment extends Fragment implements IFilterMealsView, OnFilt
 
     @SuppressLint("NotifyDataSetChanged")
     public void showMeal(List<Meal> meals) {
+        if (meals == null) {
+            // Hide the RecyclerView
+            recyclerView.setVisibility(View.GONE);
+        } else {
+            // Show the RecyclerView and populate it with favorite meals
+            recyclerView.setVisibility(View.VISIBLE);
+            fullScreenImage.setVisibility(View.GONE);
         typeAdapter.setValues(meals);
         typeAdapter.notifyDataSetChanged();
+    }
     }
 
     @Override

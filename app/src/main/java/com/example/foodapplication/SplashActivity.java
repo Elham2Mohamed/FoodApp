@@ -15,7 +15,7 @@ import android.widget.ImageView;
 import com.example.foodapplication.home.view.HomeActivity;
 
 public class SplashActivity extends AppCompatActivity {
-    private static final long SPLASH_DURATION = 5000;
+    private static final long SPLASH_DURATION = 6000;
     private static final String PREFERENCES = "PREFERENCES";
     private static final String EMAIL = "email";
     private static final String PASSWORD = "password";

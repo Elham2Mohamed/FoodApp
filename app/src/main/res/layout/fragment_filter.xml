@@ -30,6 +30,8 @@
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
+                app:chipStrokeColor="@color/app_color"
+                android:textColor="@color/app_color"
                 android:text="@string/category"
                 tools:ignore="RtlSymmetry" />
 
@@ -37,6 +39,8 @@
                 android:id="@+id/chip2"
                 style="@style/Widget.Material3.Chip.Filter"
                 android:layout_width="100dp"
+                app:chipStrokeColor="@color/app_color"
+                android:textColor="@color/app_color"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
                 android:text="@string/ingredient" />
@@ -45,6 +49,8 @@
                 android:id="@+id/chip3"
                 style="@style/Widget.Material3.Chip.Filter"
                 android:layout_width="100dp"
+                app:chipStrokeColor="@color/app_color"
+                android:textColor="@color/app_color"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
                 android:text="@string/country" />
@@ -130,6 +136,14 @@
                 </ScrollView>
 
             </LinearLayout>
+            <ImageView
+                android:id="@+id/fullScreenImage"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="fitCenter"
+                android:visibility="visible"
+                android:src="@drawable/emm_search"
+                />
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

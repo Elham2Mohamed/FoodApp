@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -20,6 +21,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.airbnb.lottie.LottieImageAsset;
 import com.example.foodapplication.LoginActivity;
 import com.example.foodapplication.MainActivity2;
 import com.example.foodapplication.Meal.View.MealActivity;
@@ -49,7 +51,7 @@ public class SearchFragment extends Fragment implements ISearchMealsView,OnSearc
     ImageButton btnBack;
     GridLayoutManager layoutManager;
     SearchMealsAdapter mealsAdapter;
-
+     ImageView fullScreenImage;
     SearchMealsPresenter mealsPresenter;
     TextView textCategory,textArea,textName,textIngredient;
     ImageButton btnSearch;
@@ -83,7 +85,7 @@ public class SearchFragment extends Fragment implements ISearchMealsView,OnSearc
         btnSearch=view.findViewById(R.id.btnSearch);
         searchText=view.findViewById(R.id.textSreach);
 
-
+        fullScreenImage = view.findViewById(R.id.fullScreenImage);
         textCategory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -186,9 +188,24 @@ public class SearchFragment extends Fragment implements ISearchMealsView,OnSearc
     @SuppressLint("NotifyDataSetChanged")
     @Override
     public void showMeals(List<Meal> meals) {
-        mealsNames=meals;
-        mealsAdapter.setMeals(meals);
-        mealsAdapter.notifyDataSetChanged();
+
+        if (meals != null) {
+            // Hide the full screen image if it's visible
+            if (fullScreenImage != null) {
+                fullScreenImage.setVisibility(View.GONE);
+            }
+
+            // Show the RecyclerView and populate it with favorite meals
+            recyclerView.setVisibility(View.VISIBLE);
+            mealsNames=meals;
+            mealsAdapter.setMeals(meals);
+            mealsAdapter.notifyDataSetChanged();
+
+        } else {
+            // Show the full screen image if the list of products is null
+            recyclerView.setVisibility(View.GONE);
+            fullScreenImage.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override

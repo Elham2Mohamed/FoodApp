@@ -25,6 +25,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.airbnb.lottie.LottieImageAsset;
 import com.example.foodapplication.AllMeals.View.AllMealsActivity;
 import com.example.foodapplication.favoriteFragment.controller.FavMealPresenter;
 import com.example.foodapplication.favoriteFragment.view.FavMealView;
@@ -68,6 +69,7 @@ public class FavouriteFragment extends Fragment implements OnMealClickListener, 
     RecyclerView recyclerView;
     LinearLayoutManager layoutManager;
     FavoriteAdapter favoriteAdapter;
+    ImageView fullScreenImage;
     FavMealPresenter favMealPresenter;
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -90,8 +92,7 @@ public class FavouriteFragment extends Fragment implements OnMealClickListener, 
         layoutManager.setOrientation(RecyclerView.VERTICAL);
         recyclerView.setLayoutManager(layoutManager);
         favMealPresenter =new FavMealPresenter(this , Repository.getRepository(LocalDataSource.getInstance(getContext()), RemoteDBSource.getInstance()));
-
-
+        fullScreenImage = view.findViewById(R.id.fullScreenImage);
         favoriteAdapter = new FavoriteAdapter(this, new ArrayList<>(),FavouriteFragment.this);
         recyclerView.setAdapter(favoriteAdapter);
         favMealPresenter.getFavMeal();
@@ -109,14 +110,27 @@ public class FavouriteFragment extends Fragment implements OnMealClickListener, 
     @SuppressLint({"NotifyDataSetChanged", "CheckResult"})
     @Override
     public void showData(Flowable<List<Meal>> meals) {
-        meals.subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                        item -> {
-                            favoriteAdapter.setValues(item);
-                            favoriteAdapter.notifyDataSetChanged();
-                        }
-                );
+
+        if (meals != null) {
+            if (fullScreenImage != null) {
+                fullScreenImage.setVisibility(View.GONE);
+            }
+            recyclerView.setVisibility(View.VISIBLE);
+            meals.subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(
+                            item -> {
+                                favoriteAdapter.setValues(item);
+                                favoriteAdapter.notifyDataSetChanged();
+                            }
+                    );
+
+
+        } else {
+            recyclerView.setVisibility(View.GONE);
+            fullScreenImage.setVisibility(View.VISIBLE);
+        }
+
 
     }
     public void onMealDetailsClickListener(String name) {

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -14,6 +15,7 @@ import androidx.lifecycle.LiveData;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.airbnb.lottie.LottieImageAsset;
 import com.example.foodapplication.Meal.View.MealActivity;
 import com.example.foodapplication.Model.LocalDataSource;
 import com.example.foodapplication.Model.Repository;
@@ -37,7 +39,7 @@ public class WeeklyFragment extends Fragment implements OnCalClickListener, CalM
     WeeklyAdapter weeklyAdapter;
     CalMealPresenter calMealPresenter;
 
-
+    ImageView fullScreenImage;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,7 +63,7 @@ public class WeeklyFragment extends Fragment implements OnCalClickListener, CalM
         recyclerView.setLayoutManager(layoutManager);
         calMealPresenter =new CalMealPresenter(this , Repository.getRepository(LocalDataSource.getInstance(getContext()), RemoteDBSource.getInstance()));
 
-
+        fullScreenImage = view.findViewById(R.id.fullScreenImage);
         weeklyAdapter = new WeeklyAdapter(this, new ArrayList<>(), WeeklyFragment.this);
         recyclerView.setAdapter(weeklyAdapter);
         calMealPresenter.getCalMeal();
@@ -70,15 +72,26 @@ public class WeeklyFragment extends Fragment implements OnCalClickListener, CalM
     @SuppressLint({"CheckResult", "NotifyDataSetChanged"})
     @Override
     public void showData(Flowable<List<MealEntry>> products) {
-        products.subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                        item -> {
-                            weeklyAdapter.setValues(item);
-                            weeklyAdapter.notifyDataSetChanged();
-                        }
-                );
+        if (products != null) {
+            if (fullScreenImage != null) {
+                fullScreenImage.setVisibility(View.GONE);
+            }
+            recyclerView.setVisibility(View.VISIBLE);
+            products.subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(
+                            item -> {
+                                weeklyAdapter.setValues(item);
+                                weeklyAdapter.notifyDataSetChanged();
+                            }
+                    );
 
+
+        } else {
+            recyclerView.setVisibility(View.GONE);
+            fullScreenImage.setVisibility(View.VISIBLE);
+
+        }
     }
 
     @SuppressLint("NotifyDataSetChanged")

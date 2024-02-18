@@ -18,19 +18,17 @@
             tools:ignore="MissingConstraints">
     <LinearLayout
         android:id="@+id/layoout"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@color/white"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="15dp"
         android:orientation="vertical"
         tools:ignore="MissingConstraints">
         <ImageButton
             android:id="@+id/btnlogout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingTop="10dp"
             android:background="@color/white"
-            android:paddingStart="15dp"
-            android:paddingEnd="14dp"
             app:srcCompat="@drawable/logout"
             android:contentDescription="TODO" />
     </LinearLayout>
@@ -40,21 +38,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="18dp"
-                android:layout_marginTop="5dp"
-                android:text="@string/hello"
-                android:textColor="#000000"
-                android:textSize="36sp"
-                style="@style/Widget.Material3.Chip.Filter" />
-
-            <TextView
-                android:id="@+id/text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="18dp"
-                android:paddingBottom="10dp"
+                android:layout_marginTop="8dp"
                 android:text="@string/what_you_want_eat_today"
                 android:textColor="#000000"
-                android:textSize="16sp" />
+                android:textSize="24sp"
+                style="@style/Widget.Material3.Chip.Filter" />
+
             <TextView
                 android:id="@+id/text2"
                 android:layout_width="wrap_content"
