@@ -27,4 +27,7 @@ public interface MealEntryDao {
     @Delete
     void delete(MealEntry mealEntry);
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    void insertAll(List<MealEntry> meals);
+
 }

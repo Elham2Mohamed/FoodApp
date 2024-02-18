@@ -62,7 +62,9 @@ import android.widget.Toast;
 
 import org.reactivestreams.Subscription;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import io.reactivex.rxjava3.core.FlowableSubscriber;
 
@@ -92,7 +94,7 @@ public class HomeFragment extends Fragment implements IAllCategoriestView, IRand
         if (bundle != null) {
             email = bundle.getString("email");
             password = bundle.getString("password");
-    }}
+        }}
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -104,7 +106,7 @@ public class HomeFragment extends Fragment implements IAllCategoriestView, IRand
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-       this.view=view;
+        this.view=view;
 
         gOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
         gClient = GoogleSignIn.getClient(getActivity(), gOptions);
@@ -240,8 +242,6 @@ public class HomeFragment extends Fragment implements IAllCategoriestView, IRand
             // Clear user data from SharedPreferences
             editor.clear();
             editor.apply();
-            deleteAllFavMealsFromRoom();
-            deleteAllCalMealsFromRoom();
             // Sign out from Google if needed
             gClient.signOut().addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
@@ -299,7 +299,7 @@ public class HomeFragment extends Fragment implements IAllCategoriestView, IRand
                         }
                     });
                     startActivity(new Intent(getContext(), LoginActivity.class));
-                   // finish(); // Finish MainActivity so user cannot return to it without logging in
+                    // finish(); // Finish MainActivity so user cannot return to it without logging in
                 }
             });
         });
@@ -311,20 +311,6 @@ public class HomeFragment extends Fragment implements IAllCategoriestView, IRand
     private int totalMealsToUpload = 0;
 
     // Method to check if all meals are uploaded to Firestore
-    private boolean allMealsUploaded() {
-        // Increment the successful uploads counter
-        successfulUploads++;
-
-        // Check if the number of successful uploads equals the total number of meals to upload
-        if (successfulUploads == totalMealsToUpload) {
-            // Reset the counters
-            successfulUploads = 0;
-            totalMealsToUpload = 0;
-            return true; // All meals are uploaded
-        } else {
-            return false; // Not all meals are uploaded yet
-        }
-    }
 
     private void  deleteAllFavMealsFromRoom(){repository.deleteAllFavMeals();}
     private void  deleteAllCalMealsFromRoom(){repository.deleteAllCalMeals();}
@@ -333,15 +319,21 @@ public class HomeFragment extends Fragment implements IAllCategoriestView, IRand
         CollectionReference favMealsRef = db.collection("FAVMeals");
 
         for (Meal meal : meals) {
-            favMealsRef.add(meal)
+            Map<String, Object> mealMap = new HashMap<>();
+            mealMap.put("idMeal", meal.getIdMeal());
+            mealMap.put("strMealThumb", meal.getStrMealThumb());
+            mealMap.put("strMeal", meal.getStrMeal());
+            // Add other fields as needed
+
+            favMealsRef.add(mealMap)
                     .addOnSuccessListener(documentReference -> {
                         Log.d("Firestore", "Meal added with ID: " + documentReference.getId());
-                        allMealsUploaded();
-                        deleteAllFavMealsFromRoom();
+                        deleteAllFavMealsFromRoom(); // Delete local data only after successful upload
                     })
                     .addOnFailureListener(e -> {
                         Log.e("Firestore", "Error adding meal", e);
                         Toast.makeText(getContext(), "Failed to upload meal: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        // Handle error here, e.g., retry upload or inform user
                     });
         }
     }
@@ -351,16 +343,32 @@ public class HomeFragment extends Fragment implements IAllCategoriestView, IRand
         CollectionReference calMealsRef = db.collection("CALMeals");
 
         for (MealEntry meal : meals) {
-            calMealsRef.add(meal)
+            Map<String, Object> mealEntryMap = new HashMap<>();
+            mealEntryMap.put("id", meal.getId());
+            mealEntryMap.put("image", meal.getImage());
+            mealEntryMap.put("name", meal.getName());
+            mealEntryMap.put("date", meal.getDate());
+            mealEntryMap.put("time", meal.getTime());
+            // Add other fields as needed
+
+            calMealsRef.add(mealEntryMap)
                     .addOnSuccessListener(documentReference -> {
-                        Log.d("Firestore", "Meal added with ID: " + documentReference.getId());
-                        allMealsUploaded();
-                        deleteAllCalMealsFromRoom();
+                        Log.d("Firestore", "Meal entry added with ID: " + documentReference.getId());
+
+                        deleteAllCalMealsFromRoom(); // Delete local data only after successful upload
                     })
                     .addOnFailureListener(e -> {
-                        Log.e("Firestore", "Error adding meal", e);
-                        Toast.makeText(getContext(), "Failed to upload meal: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        Log.e("Firestore", "Error adding meal entry", e);
+                        Toast.makeText(getContext(), "Failed to upload meal entry: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        // Handle error here, e.g., retry upload or inform user
                     });
         }
     }
+
+    private boolean allMealsUploaded() {
+        successfulUploads++;
+        return successfulUploads == totalMealsToUpload;
+    }
+
+
 }
