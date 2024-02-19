@@ -64,7 +64,7 @@ public class LoginActivity extends AppCompatActivity {
     GoogleSignInOptions gOptions;
     GoogleSignInClient gClient;
     ImageButton toggleButton;
-
+    LocalDataSource localDataSource;
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,7 +78,7 @@ public class LoginActivity extends AppCompatActivity {
         forgotPassword = findViewById(R.id.forgot_password);
         googleBtn = findViewById(R.id.googleBtn);
        toggleButton = findViewById(R.id.passwordVisibilityToggle);
-         repository = Repository.getRepository(LocalDataSource.getInstance(this), RemoteDBSource.getInstance());
+        localDataSource = LocalDataSource.getInstance(this);
 
 
         toggleButton.setOnClickListener(new View.OnClickListener() {
@@ -122,7 +122,7 @@ public class LoginActivity extends AppCompatActivity {
                                 .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                                     @Override
                                     public void onSuccess(AuthResult authResult) {
-
+                                        readAllData();
                                         Toast.makeText(LoginActivity.this, "Login Successful", Toast.LENGTH_SHORT).show();
                                         Intent intent=new Intent(LoginActivity.this, MainActivity2.class);
                                         intent.putExtra("email",email);
@@ -237,48 +237,41 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-//    public void readAllData() {
-//        db = FirebaseFirestore.getInstance();
-//        // Inside your login method or wherever you handle user login
-//        db.collection("FAVMeals")
-//                .get()
-//                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-//                        if (task.isSuccessful()) {
-//                            List<Meal> favMeals = new ArrayList<>();
-//                            for (QueryDocumentSnapshot document : task.getResult()) {
-//                                // Convert Firestore document to Meal object
-//                                favMeals.add(new Meal(document.toObject(Meal.class).getIdMeal(),document.toObject(Meal.class).getStrMeal(),document.toObject(Meal.class).getStrMealThumb()));
-//                            }
-//                            // Upload FAVMeals to Room database
-//                            uploadFAVMealsToRoom(favMeals);
-//                        } else {
-//                            Log.d("TAG", "Error getting FAVMeals: ", task.getException());
-//                        }
-//                    }
-//                });
-//
-//        db.collection("CALMeals")
-//                .get()
-//                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-//                        if (task.isSuccessful()) {
-//                            List<MealEntry> calMeals = new ArrayList<>();
-//                            for (QueryDocumentSnapshot document : task.getResult()) {
-//                                // Convert Firestore document to MealEntry object
-//                                calMeals.add(new MealEntry(document.toObject(MealEntry.class).getImage(),document.toObject(MealEntry.class).getName(),document.toObject(MealEntry.class).getDate(),document.toObject(MealEntry.class).getTime()));
-//                            }
-//                            // Upload CALMeals to Room database
-//                            uploadCalMealsToRoom(calMeals);
-//                        } else {
-//                            Log.d("TAG", "Error getting CALMeals: ", task.getException());
-//                        }
-//                    }
-//                });
-//
-//    }
+    public void readAllData() {
+        db = FirebaseFirestore.getInstance();
+        db.collection("FAVMeals")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                localDataSource.insertMeal(new Meal(document.toObject(Meal.class).getIdMeal(),document.toObject(Meal.class).getStrMeal(),document.toObject(Meal.class).getStrMealThumb()));
+                            }
+                        } else {
+                            Log.d("TAG", "Error getting FAVMeals: ", task.getException());
+                        }
+                    }
+                });
+
+        db.collection("CALMeals")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+
+                                localDataSource.insertMealToCal(new MealEntry(document.toObject(MealEntry.class).getImage(),document.toObject(MealEntry.class).getName(),document.toObject(MealEntry.class).getDate(),document.toObject(MealEntry.class).getTime()));
+                            }
+
+                        } else {
+                            Log.d("TAG", "Error getting CALMeals: ", task.getException());
+                        }
+                    }
+                });
+
+    }
 
     private void uploadFAVMealsToRoom(List<Meal> meals) {
      repository.addAllMealToFAV(meals);
