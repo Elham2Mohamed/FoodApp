@@ -2,5 +2,5 @@
 <!-- selected_background.xml -->
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="rectangle" >
-    <solid android:color="@color/app_color2" /> <!-- Change the color as needed -->
+    <solid android:color="@color/app_color3" /> <!-- Change the color as needed -->
 </shape>

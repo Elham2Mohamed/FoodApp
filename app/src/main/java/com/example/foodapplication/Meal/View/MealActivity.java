@@ -8,6 +8,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.provider.CalendarContract;
 import android.util.Log;
@@ -35,6 +37,7 @@ import com.example.foodapplication.network.RemoteDBSource;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -59,7 +62,7 @@ public class MealActivity extends AppCompatActivity implements IMealView, OnFavC
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_meal);
-
+        setLocale("en");
         mealNameTextView = findViewById(R.id.mealNameTextView);
         mealDescTextView = findViewById(R.id.txtDesciption);
         video = findViewById(R.id.videoView);
@@ -198,7 +201,13 @@ public class MealActivity extends AppCompatActivity implements IMealView, OnFavC
 
     @Override
     public void ShowErrMsg(String error) {
-        Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("No Internet Connection");
+        builder.setMessage("Please check your internet connection and try again.");
+        builder.setPositiveButton("OK", (dialogInterface, i) -> {
+            dialogInterface.dismiss();
+        });
+        builder.show();
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -224,5 +233,13 @@ public class MealActivity extends AppCompatActivity implements IMealView, OnFavC
         builder.setNegativeButton("Cancel", null);
         builder.show();
 
+    }
+    private void setLocale(String languageCode) {
+        Resources resources = getResources();
+        Configuration configuration = resources.getConfiguration();
+        Locale locale = new Locale(languageCode);
+        Locale.setDefault(locale);
+        configuration.setLocale(locale);
+        resources.updateConfiguration(configuration, resources.getDisplayMetrics());
     }
 }

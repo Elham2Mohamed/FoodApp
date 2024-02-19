@@ -5,6 +5,7 @@ import android.widget.Toast;
 
 import androidx.lifecycle.LiveData;
 
+import com.example.foodapplication.MainActivity2;
 import com.example.foodapplication.db.MealEntry;
 import com.example.foodapplication.network.RemoteDBSource;
 import com.example.foodapplication.network.NetworkCallback;
@@ -119,6 +120,8 @@ public class Repository {
 
         Map<String, Object> mealMap = new HashMap<>();
         mealMap.put("idMeal", meal.getIdMeal());
+        mealMap.put("UserEmail", MainActivity2.sharedPreferences.getString("email",""));
+
         mealMap.put("strMealThumb", meal.getStrMealThumb());
         mealMap.put("strMeal", meal.getStrMeal());
 
@@ -137,6 +140,7 @@ public class Repository {
 
         Map<String, Object> mealEntryMap = new HashMap<>();
         mealEntryMap.put("id", meal.getId());
+        mealEntryMap.put("UserEmail", MainActivity2.sharedPreferences.getString("email",""));
         mealEntryMap.put("image", meal.getImage());
         mealEntryMap.put("name", meal.getName());
         mealEntryMap.put("date", meal.getDate());
@@ -151,11 +155,66 @@ public class Repository {
                     Log.e("Firestore", "Error adding meal entry", e);
                 });
     }
+//    private void deleteCalMealFromFirestore(MealEntry meal) {
+//        FirebaseFirestore db = FirebaseFirestore.getInstance();
+//        CollectionReference calMealsRef = db.collection("CALMeals");
+//        if("UserEmail".equals( MainActivity2.sharedPreferences.getString("email",""))){
+//        calMealsRef.whereEqualTo("name", meal.getName())
+//                .get()
+//                .addOnSuccessListener(queryDocumentSnapshots -> {
+//                    for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
+//                        // Found the document, now delete it
+//                        document.getReference().delete()
+//                                .addOnSuccessListener(aVoid -> {
+//                                    Log.d("Firestore", "Meal deleted successfully");
+//
+//                                })
+//                                .addOnFailureListener(e -> {
+//                                    Log.e("Firestore", "Error deleting meal", e);
+//
+//                                });
+//                    }
+//                })
+//                .addOnFailureListener(e -> {
+//                    Log.e("Firestore", "Error querying meal", e);
+//
+//                });
+//    }
+//    }
+//
+//    private void deleteFavMealFromFirestore(Meal meal) {
+//        FirebaseFirestore db = FirebaseFirestore.getInstance();
+//        CollectionReference calMealsRef = db.collection("FAVMeals");
+//        if("UserEmail".equals( MainActivity2.sharedPreferences.getString("email",""))){
+//        calMealsRef.whereEqualTo("strMeal", meal.getStrMeal())
+//                .get()
+//                .addOnSuccessListener(queryDocumentSnapshots -> {
+//                    for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
+//
+//                        document.getReference().delete()
+//                                .addOnSuccessListener(aVoid -> {
+//                                    Log.d("Firestore", "Meal deleted successfully");
+//
+//                                })
+//                                .addOnFailureListener(e -> {
+//                                    Log.e("Firestore", "Error deleting meal", e);
+//
+//                                });
+//                    }
+//                })
+//                .addOnFailureListener(e -> {
+//                    Log.e("Firestore", "Error querying meal", e);
+//
+//                });
+//    }}
+
+
     private void deleteCalMealFromFirestore(MealEntry meal) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference calMealsRef = db.collection("CALMeals");
-
-        calMealsRef.whereEqualTo("name", meal.getName())
+        String userEmail = MainActivity2.sharedPreferences.getString("email", "");
+        calMealsRef.whereEqualTo("UserEmail", userEmail)
+                .whereEqualTo("name", meal.getName())
                 .get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
                     for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
@@ -163,45 +222,37 @@ public class Repository {
                         document.getReference().delete()
                                 .addOnSuccessListener(aVoid -> {
                                     Log.d("Firestore", "Meal deleted successfully");
-
                                 })
                                 .addOnFailureListener(e -> {
                                     Log.e("Firestore", "Error deleting meal", e);
-
                                 });
                     }
                 })
                 .addOnFailureListener(e -> {
                     Log.e("Firestore", "Error querying meal", e);
-
                 });
     }
-
 
     private void deleteFavMealFromFirestore(Meal meal) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        CollectionReference calMealsRef = db.collection("FAVMeals");
-
-        calMealsRef.whereEqualTo("strMeal", meal.getStrMeal())
+        CollectionReference favMealsRef = db.collection("FAVMeals");
+        String userEmail = MainActivity2.sharedPreferences.getString("email", "");
+        favMealsRef.whereEqualTo("UserEmail", userEmail)
+                .whereEqualTo("strMeal", meal.getStrMeal())
                 .get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
                     for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
-
                         document.getReference().delete()
                                 .addOnSuccessListener(aVoid -> {
                                     Log.d("Firestore", "Meal deleted successfully");
-
                                 })
                                 .addOnFailureListener(e -> {
                                     Log.e("Firestore", "Error deleting meal", e);
-
                                 });
                     }
                 })
                 .addOnFailureListener(e -> {
                     Log.e("Firestore", "Error querying meal", e);
-
                 });
     }
-
 }

@@ -12,6 +12,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -41,6 +43,7 @@ import android.widget.Toast;
 import org.reactivestreams.Subscription;
 
 import java.util.List;
+import java.util.Locale;
 
 import io.reactivex.rxjava3.core.FlowableSubscriber;
 
@@ -72,6 +75,7 @@ public class MainActivity2 extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
         checkInternetConnection();
+        setLocale("en");
 
 
         sharedPreferences = getSharedPreferences(MainActivity2.PREFERENCES, Context.MODE_PRIVATE);
@@ -204,7 +208,14 @@ public class MainActivity2 extends AppCompatActivity {
         builder.setNegativeButton("No", null);
         builder.show();
     }
-
+    private void setLocale(String languageCode) {
+        Resources resources = getResources();
+        Configuration configuration = resources.getConfiguration();
+        Locale locale = new Locale(languageCode);
+        Locale.setDefault(locale);
+        configuration.setLocale(locale);
+        resources.updateConfiguration(configuration, resources.getDisplayMetrics());
+    }
 
 }
 

@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Bundle;
 
 import android.os.Handler;
@@ -13,6 +15,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 import com.example.foodapplication.home.view.HomeActivity;
+
+import java.util.Locale;
 
 public class SplashActivity extends AppCompatActivity {
     private static final long SPLASH_DURATION = 6000;
@@ -26,7 +30,9 @@ public class SplashActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-                new Handler().postDelayed(new Runnable() {
+        setLocale("en");
+
+        new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         // Start the main activity
@@ -65,4 +71,12 @@ public class SplashActivity extends AppCompatActivity {
                     }
                 );
             }
+    private void setLocale(String languageCode) {
+        Resources resources = getResources();
+        Configuration configuration = resources.getConfiguration();
+        Locale locale = new Locale(languageCode);
+        Locale.setDefault(locale);
+        configuration.setLocale(locale);
+        resources.updateConfiguration(configuration, resources.getDisplayMetrics());
+    }
         }

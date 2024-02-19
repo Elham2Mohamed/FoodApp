@@ -1,7 +1,13 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Base.Theme.FoodApplication" parent="Theme.Material3.DayNight">
-        <!-- Customize your dark theme here. -->
-        <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+        <item name="colorPrimary">@color/app_color</item>
+        <item name="colorPrimaryDark">#FFD9B7</item>
+        <item name="colorAccent">@color/app_color</item>
+        <!-- Hide the action bar -->
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
     </style>
+
+    <style name="Theme.FoodApplication" parent="Base.Theme.FoodApplication" />
 </resources>

@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.util.Pair;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -70,10 +71,13 @@ public class AllMealsActivity extends AppCompatActivity implements IAllMealsView
 
     @Override
     public void ShowErrMsg(String error) {
-        AlertDialog.Builder builder=new AlertDialog.Builder(this);
-        builder.setMessage(error).setTitle("An Error Occurred");
-        AlertDialog dialog=builder.create();
-        dialog.show();
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("No Internet Connection");
+        builder.setMessage("Please check your internet connection and try again.");
+        builder.setPositiveButton("OK", (dialogInterface, i) -> {
+            dialogInterface.dismiss();
+        });
+        builder.show();
     }
 
     @SuppressLint("NotifyDataSetChanged")
