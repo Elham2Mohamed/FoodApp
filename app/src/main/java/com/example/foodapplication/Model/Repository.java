@@ -10,6 +10,7 @@ import com.example.foodapplication.network.RemoteDBSource;
 import com.example.foodapplication.network.NetworkCallback;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.HashMap;
 import java.util.List;
@@ -61,9 +62,11 @@ public class Repository {
 
     public void removeMeal(Meal meal){
         localDataSource.deleteMeal(meal);
+        deleteFavMealFromFirestore( meal);
     }
     public void removeMealFromCal(MealEntry meal){
         localDataSource.deleteMealCal(meal);
+        deleteCalMealFromFirestore( meal);
     }
     public Flowable<List<MealEntry>> getCalMeals() {
         return localDataSource.getAllStoreCalMeals();
@@ -148,4 +151,57 @@ public class Repository {
                     Log.e("Firestore", "Error adding meal entry", e);
                 });
     }
+    private void deleteCalMealFromFirestore(MealEntry meal) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        CollectionReference calMealsRef = db.collection("CALMeals");
+
+        calMealsRef.whereEqualTo("name", meal.getName())
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
+                        // Found the document, now delete it
+                        document.getReference().delete()
+                                .addOnSuccessListener(aVoid -> {
+                                    Log.d("Firestore", "Meal deleted successfully");
+
+                                })
+                                .addOnFailureListener(e -> {
+                                    Log.e("Firestore", "Error deleting meal", e);
+
+                                });
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    Log.e("Firestore", "Error querying meal", e);
+
+                });
+    }
+
+
+    private void deleteFavMealFromFirestore(Meal meal) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        CollectionReference calMealsRef = db.collection("FAVMeals");
+
+        calMealsRef.whereEqualTo("strMeal", meal.getStrMeal())
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
+
+                        document.getReference().delete()
+                                .addOnSuccessListener(aVoid -> {
+                                    Log.d("Firestore", "Meal deleted successfully");
+
+                                })
+                                .addOnFailureListener(e -> {
+                                    Log.e("Firestore", "Error deleting meal", e);
+
+                                });
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    Log.e("Firestore", "Error querying meal", e);
+
+                });
+    }
+
 }

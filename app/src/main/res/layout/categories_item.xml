@@ -13,6 +13,7 @@
         android:layout_width="170dp"
         app:layout_constraintWidth_percent="0.5"
         app:layout_constraintEnd_toEndOf="parent"
+        android:background="@drawable/text_background_selector"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingConstraints" >
