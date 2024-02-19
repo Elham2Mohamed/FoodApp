@@ -42,7 +42,7 @@ public class MealPresenter implements IMealPresenter, NetworkCallback {
     @Override
     public void onSuccessResultMeals(List<Meal> mealList) {
         if (mealList != null && !mealList.isEmpty()) {
-            Meal meal = mealList.get(0); // Assuming only one meal is returned
+            Meal meal = mealList.get(0);
             mealView.showMeal(meal);
         } else {
             mealView.ShowErrMsg("Meal not found");

@@ -47,10 +47,10 @@ public class FilterTypeAdapter extends RecyclerView.Adapter<FilterTypeAdapter.Vi
 
 
     public void setValues(List<Meal> values) {
-        if (values != null) { // Check if the list is not null
+        if (values != null) {
             this.values = values;
         } else {
-            this.values.clear(); // Clear the list if it's null to avoid NullPointerException
+            this.values.clear();
         }
     }
 
@@ -62,7 +62,7 @@ public class FilterTypeAdapter extends RecyclerView.Adapter<FilterTypeAdapter.Vi
         }
         else if(FilterFragment.type==1){
           holder.name.setText(values.get(position).getStrIngredient());
-            //type=holder.name.getText().toString();
+
         }
         else{
             holder.name.setText(values.get(position).getStrArea());

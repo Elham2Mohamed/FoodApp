@@ -99,7 +99,7 @@ public class HomeFragment extends Fragment implements IAllCategoriestView, IRand
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+
         return inflater.inflate(R.layout.fragment_home, container, false);
     }
 
@@ -225,9 +225,8 @@ public class HomeFragment extends Fragment implements IAllCategoriestView, IRand
         builder.setTitle("Account Required");
         builder.setMessage("You must create an account before accessing this feature.");
         builder.setPositiveButton("OK", (dialogInterface, i) -> {
-            // Redirect user to login activity
             startActivity(new Intent(getContext(), LoginActivity.class));
-            //finish(); // Finish MainActivity so user cannot return to it without logging in
+
         });
         builder.setNegativeButton("Cancel", null);
         builder.show();
@@ -239,10 +238,9 @@ public class HomeFragment extends Fragment implements IAllCategoriestView, IRand
         builder.setTitle("Logout Confirmation");
         builder.setMessage("Are you sure you want to logout?");
         builder.setPositiveButton("Yes", (dialogInterface, i) -> {
-            // Clear user data from SharedPreferences
-            editor.clear();
+           editor.clear();
             editor.apply();
-            // Sign out from Google if needed
+
             gClient.signOut().addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {

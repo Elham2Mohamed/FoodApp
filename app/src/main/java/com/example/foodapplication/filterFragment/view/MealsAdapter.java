@@ -48,10 +48,10 @@ public class MealsAdapter extends RecyclerView.Adapter<MealsAdapter.ViewHolder> 
 
 
     public void setMeals(List<Meal> meals) {
-        if (meals != null) { // Check if the list is not null
+        if (meals != null) {
             this.meals = meals;
         } else {
-            this.meals.clear(); // Clear the list if it's null to avoid NullPointerException
+            this.meals.clear();
         }
     }
 

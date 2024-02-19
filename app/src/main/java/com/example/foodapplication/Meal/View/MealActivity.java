@@ -78,43 +78,38 @@ public class MealActivity extends AppCompatActivity implements IMealView, OnFavC
     }
 
     public void addToCalendar(Meal meal) {
-        // Create a Calendar instance with the current date and time as the default values
-        Calendar calendar = Calendar.getInstance();
+       Calendar calendar = Calendar.getInstance();
 
-        // Create a DatePickerDialog to allow the user to select the date
-        DatePickerDialog datePickerDialog = new DatePickerDialog(this, (datePicker, selectedYear, selectedMonth, selectedDay) -> {
-            // Create a TimePickerDialog to allow the user to select the time
+         DatePickerDialog datePickerDialog = new DatePickerDialog(this, (datePicker, selectedYear, selectedMonth, selectedDay) -> {
             TimePickerDialog timePickerDialog = new TimePickerDialog(this, (timePicker, selectedHour, selectedMinute) -> {
-                // Update the selected date and time
                 MealActivity.this.onSaveMealClickListener(new MealEntry(meal.getStrMealThumb(),meal.getStrMeal(),selectedYear+" / "+(1+selectedMonth)+" / "+selectedDay, selectedHour+" : "+selectedMinute));
 
                 calendar.set(selectedYear, selectedMonth, selectedDay, selectedHour, selectedMinute);
 
-                // Create the calendar intent
                 Intent calendarIntent = new Intent(Intent.ACTION_INSERT)
                         .setData(CalendarContract.Events.CONTENT_URI)
-                        .putExtra(CalendarContract.Events.TITLE, meal.getStrMeal()) // Set the meal name as the event title
+                        .putExtra(CalendarContract.Events.TITLE, meal.getStrMeal())
                         .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, calendar.getTimeInMillis())
                         .putExtra(CalendarContract.Events.ALL_DAY, false)
-                        .putExtra(CalendarContract.Events.DESCRIPTION, meal.getStrInstructions()) // Add meal description if needed
-                        .putExtra(CalendarContract.Events.EVENT_LOCATION, meal.getStrArea()); // Add meal location if needed
+                        .putExtra(CalendarContract.Events.DESCRIPTION, meal.getStrInstructions())
+                        .putExtra(CalendarContract.Events.EVENT_LOCATION, meal.getStrArea());
 
-                // Start the calendar intent
+
                 startActivity(calendarIntent);
             }, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), false);
 
-            // Show the TimePickerDialog
+
             timePickerDialog.show();
         }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
 
-        // Set the minimum date to the current date
+
         datePickerDialog.getDatePicker().setMinDate(calendar.getTimeInMillis());
 
-        // Add 7 days to the current date and set it as the maximum date
+
         calendar.add(Calendar.DAY_OF_MONTH, 7);
         datePickerDialog.getDatePicker().setMaxDate(calendar.getTimeInMillis());
 
-        // Show the DatePickerDialog
+
         datePickerDialog.show();
     }
 

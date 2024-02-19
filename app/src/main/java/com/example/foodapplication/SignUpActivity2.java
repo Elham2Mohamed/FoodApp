@@ -47,15 +47,15 @@ public class SignUpActivity2 extends AppCompatActivity {
                 int selectionStart = signupPassword.getSelectionStart();
                 int selectionEnd = signupPassword.getSelectionEnd();
                 if (signupPassword.getTransformationMethod() == PasswordTransformationMethod.getInstance()) {
-                    // Password is currently hidden, show it
+
                     signupPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
-                    toggleButton.setImageResource(R.drawable.visibility_off); // Change image to hide password icon
+                    toggleButton.setImageResource(R.drawable.visibility_off);
                 } else {
-                    // Password is currently shown, hide it
+
                     signupPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
-                    toggleButton.setImageResource(R.drawable.visibility); // Change image to show password icon
+                    toggleButton.setImageResource(R.drawable.visibility);
                 }
-                // Preserve cursor position
+
                 signupPassword.setSelection(selectionStart, selectionEnd);
             }
         });

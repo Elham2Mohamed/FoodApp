@@ -28,7 +28,7 @@ public class Repository {
         this.remoteDBSource = remoteDBSource;
     }
 
-    // Factory method to create Repository instance with both LocalDataSource and RemoteDBSource
+
     public static Repository getRepository(LocalDataSource localDataSource, RemoteDBSource remoteDBSource) {
         if (repository == null)
             repository = new Repository(localDataSource, remoteDBSource);
@@ -138,7 +138,6 @@ public class Repository {
         mealEntryMap.put("name", meal.getName());
         mealEntryMap.put("date", meal.getDate());
         mealEntryMap.put("time", meal.getTime());
-        // Add other fields as needed
 
         calMealsRef.add(mealEntryMap)
                 .addOnSuccessListener(documentReference -> {

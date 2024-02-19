@@ -98,10 +98,8 @@ public class AllMealsActivity extends AppCompatActivity implements IAllMealsView
         builder.setTitle("Account Required");
         builder.setMessage("You must create an account before accessing this feature.");
         builder.setPositiveButton("OK", (dialogInterface, i) -> {
-            // Redirect user to login activity
             startActivity(new Intent(this, LoginActivity.class));
-            //finish(); // Finish MainActivity so user cannot return to it without logging in
-        });
+             });
         builder.setNegativeButton("Cancel", null);
         builder.show();
 

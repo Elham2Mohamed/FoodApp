@@ -69,7 +69,6 @@ public class SearchFragment extends Fragment implements ISearchMealsView,OnSearc
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_search, container, false);
     }
 
@@ -190,19 +189,18 @@ public class SearchFragment extends Fragment implements ISearchMealsView,OnSearc
     public void showMeals(List<Meal> meals) {
 
         if (meals != null) {
-            // Hide the full screen image if it's visible
+
             if (fullScreenImage != null) {
                 fullScreenImage.setVisibility(View.GONE);
             }
 
-            // Show the RecyclerView and populate it with favorite meals
+
             recyclerView.setVisibility(View.VISIBLE);
             mealsNames=meals;
             mealsAdapter.setMeals(meals);
             mealsAdapter.notifyDataSetChanged();
 
         } else {
-            // Show the full screen image if the list of products is null
             recyclerView.setVisibility(View.GONE);
             fullScreenImage.setVisibility(View.VISIBLE);
         }
@@ -238,9 +236,9 @@ public class SearchFragment extends Fragment implements ISearchMealsView,OnSearc
         builder.setTitle("Account Required");
         builder.setMessage("You must create an account before accessing this feature.");
         builder.setPositiveButton("OK", (dialogInterface, i) -> {
-            // Redirect user to login activity
+
             startActivity(new Intent(getContext(), LoginActivity.class));
-            //finish(); // Finish MainActivity so user cannot return to it without logging in
+
         });
         builder.setNegativeButton("Cancel", null);
         builder.show();
@@ -254,7 +252,7 @@ public class SearchFragment extends Fragment implements ISearchMealsView,OnSearc
     }
     @SuppressLint({"NotifyDataSetChanged", "CheckResult"})
     private void filterNames(String query) {
-        // Check if mealsNames is null
+
         if (mealsNames == null) {
             return;
         }

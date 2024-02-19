@@ -125,8 +125,7 @@ public class FilterFragment extends Fragment implements IFilterMealsView, OnFilt
             // Hide the RecyclerView
             recyclerView.setVisibility(View.GONE);
         } else {
-            // Show the RecyclerView and populate it with favorite meals
-            recyclerView.setVisibility(View.VISIBLE);
+           recyclerView.setVisibility(View.VISIBLE);
             fullScreenImage.setVisibility(View.GONE);
         typeAdapter.setValues(meals);
         typeAdapter.notifyDataSetChanged();
@@ -185,9 +184,7 @@ public class FilterFragment extends Fragment implements IFilterMealsView, OnFilt
         builder.setTitle("Account Required");
         builder.setMessage("You must create an account before accessing this feature.");
         builder.setPositiveButton("OK", (dialogInterface, i) -> {
-            // Redirect user to login activity
             startActivity(new Intent(getContext(), LoginActivity.class));
-            //finish(); // Finish MainActivity so user cannot return to it without logging in
         });
         builder.setNegativeButton("Cancel", null);
         builder.show();

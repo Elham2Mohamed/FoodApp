@@ -95,16 +95,15 @@ public class MainActivity extends AppCompatActivity {
             builder.setTitle("Logout Confirmation");
             builder.setMessage("Are you sure you want to logout?");
             builder.setPositiveButton("Yes", (dialogInterface, i) -> {
-                // Clear user data from SharedPreferences
-                editor.clear();
+                 editor.clear();
                 editor.apply();
-                // Sign out from Google if needed
+
                 gClient.signOut().addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
-                        // Redirect user to login activity
+
                         startActivity(new Intent(MainActivity.this, LoginActivity.class));
-                        finish(); // Finish MainActivity so user cannot return to it without logging in
+                        finish();
                     }
                 });
             });

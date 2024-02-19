@@ -9,13 +9,9 @@ public class MealResponse {
     List<Meal> Meals;
 
 
-    // Getter Methods
-
     public List<Meal> getMeals() {
         return Meals;
     }
-
-    // Setter Methods
 
     public void setMeals(List<Meal> meals) {
         this.Meals = meals;

@@ -204,7 +204,7 @@ public class MainActivity2 extends AppCompatActivity {
         builder.setNegativeButton("No", null);
         builder.show();
     }
-    // Define variables to track successful uploads
+
 
 }
 

@@ -92,11 +92,9 @@ public class LoginActivity extends AppCompatActivity {
                     loginPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
                     toggleButton.setImageResource(R.drawable.visibility_off); // Change image to hide password icon
                 } else {
-                    // Password is currently shown, hide it
-                    loginPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                   loginPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
                     toggleButton.setImageResource(R.drawable.visibility); // Change image to show password icon
                 }
-                // Preserve cursor position
                 loginPassword.setSelection(selectionStart, selectionEnd);
             }
         });

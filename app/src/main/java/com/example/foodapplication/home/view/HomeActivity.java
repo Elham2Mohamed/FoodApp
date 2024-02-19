@@ -132,11 +132,9 @@ public class HomeActivity extends AppCompatActivity implements IAllCategoriestVi
                 else if (id == R.id.navigation_weekly) {
 
                     if (sharedPreferences.contains("email") && sharedPreferences.contains("password")) {
-                        // User has email and password stored, show logout confirmation dialog
                         Intent favoriteIntent = new Intent(HomeActivity.this, FavouriteFragment.class);
                         startActivity(favoriteIntent);
                     } else {
-                        // User does not have email and password stored, show dialog
                         showCreateAccountDialog();
                     }
 
@@ -169,10 +167,8 @@ private void init(){
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(item.getItemId()==android.R.id.home){
             if (sharedPreferences.contains("email") && sharedPreferences.contains("password")) {
-                    // User has email and password stored, show logout confirmation dialog
-                    showLogoutConfirmationDialog();
+                     showLogoutConfirmationDialog();
                 } else {
-                    // User does not have email and password stored, show dialog
                     showCreateAccountDialog();
               }
         }
@@ -195,11 +191,9 @@ private void init(){
             @Override
             public void onClick(View v) {
                 if (sharedPreferences.contains("email") && sharedPreferences.contains("password")) {
-                    // User has email and password stored, show logout confirmation dialog
                     HomeActivity.this.onFavMealClickListener(meals.get(0));
                 } else {
-                    // User does not have email and password stored, show dialog
-                    showCreateAccountDialog();
+                   showCreateAccountDialog();
                 }
 
             }
@@ -246,9 +240,8 @@ private void init(){
         builder.setTitle("Account Required");
         builder.setMessage("You must create an account before accessing this feature.");
         builder.setPositiveButton("OK", (dialogInterface, i) -> {
-            // Redirect user to login activity
             startActivity(new Intent(HomeActivity.this, LoginActivity.class));
-            finish(); // Finish MainActivity so user cannot return to it without logging in
+            finish();
         });
         builder.setNegativeButton("Cancel", null);
         builder.show();
@@ -260,16 +253,15 @@ private void init(){
         builder.setTitle("Logout Confirmation");
         builder.setMessage("Are you sure you want to logout?");
         builder.setPositiveButton("Yes", (dialogInterface, i) -> {
-            // Clear user data from SharedPreferences
+
             editor.clear();
             editor.apply();
-            // Sign out from Google if needed
+
             gClient.signOut().addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
-                    // Redirect user to login activity
                     startActivity(new Intent(HomeActivity.this, LoginActivity.class));
-                    finish(); // Finish MainActivity so user cannot return to it without logging in
+                    finish();
                 }
             });
         });

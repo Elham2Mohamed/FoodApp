@@ -7,7 +7,7 @@ public class Categories {
     private String strCategoryDescription;
 
 
-    // Getter Methods
+
 
     public String getIdCategory() {
         return idCategory;
@@ -25,7 +25,7 @@ public class Categories {
         return strCategoryDescription;
     }
 
-    // Setter Methods
+
 
     public void setIdCategory(String idCategory) {
         this.idCategory = idCategory;

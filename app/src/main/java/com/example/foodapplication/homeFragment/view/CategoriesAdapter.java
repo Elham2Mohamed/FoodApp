@@ -48,10 +48,10 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
 
 
     public void setValues(List<Categories> values) {
-        if (values != null) { // Check if the list is not null
+        if (values != null) {
             this.values = values;
         } else {
-            this.values.clear(); // Clear the list if it's null to avoid NullPointerException
+            this.values.clear();
         }
     }
 
