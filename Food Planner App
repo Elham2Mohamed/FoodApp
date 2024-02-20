@@ -1,0 +1,26 @@
+                                      Food Planner App
+This Food Planner app allows users to manage their meals, search for recipes, plan their weekly meals, and more.
+The app is built using Android Java with various technologies such as Firebase for authentication and FireStore, 
+Retrofit for API requests, Room Database for local storage, MVP architecture, and RxJava for reactive programming
+
+
+Features:
+
+  * Authentication: Users can sign up and log in using email/password or via social networking authentication (e.g., Google).
+  * Meal of the Day: Users can view a random meal for inspiration.
+  * Search and Filter: Users can search for meals based on name, country, ingredient, or category. They can also filter meals by category, ingredient, or country.
+  * Favorite Meals: Users can add meals to their favorites list and remove them. Favorite meals are stored locally using Room Database.
+  * Plan Weekly Meals: Users can plan their weekly meals and view them in a dedicated screen. They can add and remove meals from the weekly plan.
+  * Offline Support: Users can view their favorite meals and weekly plan even without an internet connection.
+  * Data Synchronization: Users' data is synchronized with Firebase, allowing them to access their data across devices.
+  * Guest Mode: Users can choose to use the app as a guest, allowing them to view categories, search for meals, and view the meal of the day without logging in.
+
+Technologies Used:
+  - Firebase Authentication
+  - Firebase FireStore Database
+  - Retrofit
+  - Room Database
+  - RxJava
+  - MVP Architecture
+
+
