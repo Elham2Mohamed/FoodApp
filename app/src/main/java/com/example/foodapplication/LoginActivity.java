@@ -234,6 +234,8 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent signInIntent = gClient.getSignInIntent();
                 activityResultLauncher.launch(signInIntent);
+                Intent intent = new Intent(LoginActivity.this, MainActivity2.class);
+                startActivity(intent);
             }
         });
     }

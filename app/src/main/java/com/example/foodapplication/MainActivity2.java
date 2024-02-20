@@ -82,7 +82,7 @@ public class MainActivity2 extends AppCompatActivity {
         editor = sharedPreferences.edit();
         Intent intent = getIntent();
         if (intent != null && intent.hasExtra("email") && intent.hasExtra("password")) {
-            //saveData
+
             editor.putString(MainActivity2.EMAIL, intent.getStringExtra("email"));
             editor.putString(MainActivity2.PASSWORD, intent.getStringExtra("password"));
             editor.commit();
