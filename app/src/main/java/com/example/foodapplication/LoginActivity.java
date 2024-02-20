@@ -240,43 +240,6 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-//    public void readAllData(String userEmail ) {
-//        db = FirebaseFirestore.getInstance();
-//        db.collection("FAVMeals")
-//                .get()
-//                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-//                        if (task.isSuccessful()) {
-//                            for (QueryDocumentSnapshot document : task.getResult()) {
-//                                if(document.get("UserEmail")==userEmail){
-//
-//                                    localDataSource.insertMeal(new Meal(document.toObject(Meal.class).getIdMeal(),document.toObject(Meal.class).getStrMeal(),document.toObject(Meal.class).getStrMealThumb()));
-//                            }}
-//                        } else {
-//                            Log.d("TAG", "Error getting FAVMeals: ", task.getException());
-//                        }
-//                    }
-//                });
-//
-//        db.collection("CALMeals")
-//                .get()
-//                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-//                        if (task.isSuccessful()) {
-//                            for (QueryDocumentSnapshot document : task.getResult()) {
-//                                if(document.get("UserEmail")==userEmail){
-//                                localDataSource.insertMealToCal(new MealEntry(document.toObject(MealEntry.class).getImage(),document.toObject(MealEntry.class).getName(),document.toObject(MealEntry.class).getDate(),document.toObject(MealEntry.class).getTime()));
-//                            }}
-//
-//                        } else {
-//                            Log.d("TAG", "Error getting CALMeals: ", task.getException());
-//                        }
-//                    }
-//                });
-//
-//    }
 
     public void readAllData(String userEmail) {
         db = FirebaseFirestore.getInstance();
