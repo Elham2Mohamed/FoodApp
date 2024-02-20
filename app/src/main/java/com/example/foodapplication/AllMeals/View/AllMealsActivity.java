@@ -21,9 +21,6 @@ import com.example.foodapplication.Model.LocalDataSource;
 import com.example.foodapplication.Model.Meal;
 import com.example.foodapplication.Model.Repository;
 import com.example.foodapplication.R;
-import com.example.foodapplication.home.controller.HomePresenter;
-import com.example.foodapplication.home.view.CategoriesAdapter;
-import com.example.foodapplication.home.view.HomeActivity;
 import com.example.foodapplication.network.RemoteDBSource;
 
 import java.util.List;

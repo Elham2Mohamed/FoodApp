@@ -14,8 +14,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
-import com.example.foodapplication.home.view.HomeActivity;
-
 import java.util.Locale;
 
 public class SplashActivity extends AppCompatActivity {
@@ -35,7 +33,6 @@ public class SplashActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        // Start the main activity
                         sharedPreferences = getSharedPreferences(SplashActivity.PREFERENCES, Context.MODE_PRIVATE);
                         editor = sharedPreferences.edit();
                         if (sharedPreferences.contains("email") && sharedPreferences.contains("password")) {

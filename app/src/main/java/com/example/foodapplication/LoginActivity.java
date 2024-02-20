@@ -32,7 +32,6 @@ import com.example.foodapplication.Model.LocalDataSource;
 import com.example.foodapplication.Model.Meal;
 import com.example.foodapplication.Model.Repository;
 import com.example.foodapplication.db.MealEntry;
-import com.example.foodapplication.home.view.HomeActivity;
 import com.example.foodapplication.network.RemoteDBSource;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;

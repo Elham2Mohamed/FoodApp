@@ -39,7 +39,6 @@ import com.example.foodapplication.Model.Meal;
 import com.example.foodapplication.Model.Repository;
 import com.example.foodapplication.R;
 import com.example.foodapplication.filterFragment.view.FilterFragment;
-import com.example.foodapplication.home.view.HomeActivity;
 import com.example.foodapplication.homeFragment.controller.HomePresenter;
 import com.example.foodapplication.homeFragment.view.CategoriesAdapter;
 import com.example.foodapplication.homeFragment.view.IAllCategoriestView;

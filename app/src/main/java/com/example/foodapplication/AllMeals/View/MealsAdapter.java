@@ -16,7 +16,6 @@ import com.example.foodapplication.Model.Categories;
 import com.example.foodapplication.Model.Meal;
 import androidx.annotation.NonNull;
 import com.example.foodapplication.R;
-import com.example.foodapplication.home.view.IAllCategoriestView;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
