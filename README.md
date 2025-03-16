@@ -17,21 +17,9 @@ Welcome to the Food Planner! This Android application allows users to plan their
 - LiveData: For data observation.
 - Material Design: For designing a modern and intuitive user interface.
 
-  ## 📸  Screenshots
+## 🎥 Demo Video  
 
-![photo1716577276 (11)](https://github.com/Elham2Mohamed/FoodApp/assets/100446648/369bc6df-9471-47fa-9054-e4d3c12b9e28)
-![photo1716577276 (10)](https://github.com/Elham2Mohamed/FoodApp/assets/100446648/5912b68a-e6de-4f81-ae69-81ee613f838d)
-![photo1716577276 (9)](https://github.com/Elham2Mohamed/FoodApp/assets/100446648/a8accd64-cfeb-47f3-9559-6b19aab1b31d)
-![photo1716577276 (8)](https://github.com/Elham2Mohamed/FoodApp/assets/100446648/d2ba5a96-61a1-4d8b-95a4-cdc915813a4c)
-![photo1716577276 (7)](https://github.com/Elham2Mohamed/FoodApp/assets/100446648/c557662b-4ddc-40b8-bc90-39e7c55225a8)
-![photo1716577276 (6)](https://github.com/Elham2Mohamed/FoodApp/assets/100446648/b6d80a60-a8a6-452a-a97c-cc0af10c6ce4)
-![photo1716577276 (5)](https://github.com/Elham2Mohamed/FoodApp/assets/100446648/4f59dd42-8ab9-4f38-b497-b0a94a2eddda)
-![photo1716577276 (4)](https://github.com/Elham2Mohamed/FoodApp/assets/100446648/8b756f9e-e8e3-4495-8ae7-921cc4dbb6ef)
-![photo1716577276 (3)](https://github.com/Elham2Mohamed/FoodApp/assets/100446648/1ff08026-11a9-44c7-b0a9-df60b2318121)
-![photo1716577276 (2)](https://github.com/Elham2Mohamed/FoodApp/assets/100446648/43ad04e4-fca9-4471-94ce-639dc7307985)
-![photo1716577276 (1)](https://github.com/Elham2Mohamed/FoodApp/assets/100446648/5dc517a9-2520-4345-bd51-0586c3554b7a)
-![photo1716577276](https://github.com/Elham2Mohamed/FoodApp/assets/100446648/88d87004-76e0-45c2-bcb3-748644ecc469)
-
+🔗 Click [here](https://drive.google.com/file/d/1bZZsr6S-EmaFiWwwoYMvXXjp-z09xpvN/view?usp=sharing) to watch the full demo.  
 
 ## 🚀 Getting Started
 Follow these instructions to get a copy of the project up and running on your local machine.
@@ -44,3 +32,8 @@ Prerequisites
 - Search Recipes: Use the search feature to find recipes by country.
 - Add to Calendar: Schedule your meals by adding them to your calendar.
 - Save Favorites: Save your favorite meals for easy access and offline browsing.
+
+
+
+
+
